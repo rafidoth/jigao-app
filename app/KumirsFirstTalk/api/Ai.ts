@@ -1,6 +1,6 @@
 import { groq } from '@ai-sdk/groq';
-import { wrapLanguageModel, extractReasoningMiddleware } from 'ai';
-import { generateText } from 'ai'
+import { wrapLanguageModel, extractReasoningMiddleware, CoreMessage } from 'ai';
+import { streamText } from 'ai'
 
 class Ai {
   model: any
@@ -15,12 +15,15 @@ class Ai {
     });
   }
 
-  async generate_text() {
-    const { text } = await generateText({
+  async generate_text(messages: CoreMessage[]) {
+    const result = streamText({
       model: this.model,
-      prompt: "Tell me a joke",
-    })
-    return text
+      messages,
+      onFinish({ response }) {
+        messages = response.messages;
+      },
+    });
+    return result.toDataStreamResponse()
   }
 }
 
