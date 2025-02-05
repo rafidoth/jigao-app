@@ -11,7 +11,7 @@ interface Props {
 
 export interface ChatHistoryContextType {
   messages: CoreMessage[];
-  setMessages: (messages: CoreMessage[]) => void;
+  setMessages: React.Dispatch<React.SetStateAction<CoreMessage[]>>;
 }
 
 const ChatHistoryContext = createContext<ChatHistoryContextType>({
@@ -20,7 +20,7 @@ const ChatHistoryContext = createContext<ChatHistoryContextType>({
 });
 
 export const ChatHistoryProvider = ({ children }: Props) => {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<CoreMessage[]>([]);
   return (
     <ChatHistoryContext.Provider value={{ messages, setMessages }}>
       {children}

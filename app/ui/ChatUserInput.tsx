@@ -2,7 +2,7 @@ import React from 'react'
 import { PaperPlaneIcon } from "@radix-ui/react-icons"
 import { Button } from '@/components/ui/button';
 import type { CoreMessage } from 'ai';
-import { StreamContextProvider, useStream } from '@/app/ui/StreamContext';
+import { useStream } from '@/app/ui/StreamContext';
 import { useChatHistory } from '@/app/ui/ChatHistoryContext';
 
 function processStreamChunk(chunk: string) {
@@ -22,9 +22,9 @@ function processStreamChunk(chunk: string) {
       // Parse the value as JSON to handle escaped characters properly
       value = JSON.parse(value);
       // Handle different types of chunks
-      if (key === 'f' && value.messageId) {
-        // This is a message ID chunk
-        console.log('Message ID:', value.messageId);
+      if (key === 'f') {
+        // ignoring this
+        continue
       } else if (key === '0') {
         // This is a content chunk
         processedContent += value;
@@ -34,22 +34,17 @@ function processStreamChunk(chunk: string) {
       continue;
     }
   }
-
   return processedContent;
 }
 
 export default function ChatUserInput() {
   const [userInput, setUserInput] = React.useState("");
-  const { messages, setMessages } = useChatHistory()
+  const { setMessages } = useChatHistory()
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const { setReply, setLoading } = useStream()
   const handleOnClick = async () => {
     setLoading(true)
-    const message: CoreMessage[] = [...messages, {
-      role: 'user',
-      content: userInput
-    }]
-    setMessages(message)
+    setMessages((prev: CoreMessage[]) => [...prev, { role: 'user', content: userInput } as CoreMessage])
     setUserInput("")
     let reader = null
     try {
@@ -84,7 +79,8 @@ export default function ChatUserInput() {
         setReply(accumulatedData)
       }
 
-
+      setMessages((prev: CoreMessage[]) => [...prev, { role: 'assistant', content: accumulatedData } as CoreMessage])
+      setLoading(false)
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -101,7 +97,7 @@ export default function ChatUserInput() {
     }
   };
   return (
-    <div className={`w-full h-[80px] px-5 flex items-center border rounded-md p-2`}>
+    <div className={`w-full h-[80px] px-5 flex items-center border-dashed border rounded-md p-2`}>
       <input
         ref={inputRef}
         value={userInput}

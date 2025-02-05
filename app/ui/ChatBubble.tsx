@@ -1,35 +1,31 @@
 import React from 'react';
-import Image from 'next/image'
-import { SketchLogoIcon, PersonIcon } from "@radix-ui/react-icons"
+import { Kumir } from './KumirIcon';
 import type { CoreMessage } from 'ai';
-
+import ReactMarkdown from "react-markdown";
+import { useStream } from '@/app/ui/StreamContext';
 interface Props {
   message: CoreMessage
   isUser: boolean;
 }
 export default function ChatBubble({ message, isUser }: Props) {
   const common_styles = "flex p-2 m-2"
+  const { loading } = useStream()
   return <div
     className={`${common_styles} ${isUser ? "justify-end" : "justify-start"}`}
   >
     {!isUser && <Kumir className="w-6 h-6 mx-2" />}
     <span className={`max-w-[600px] ${isUser && "bg-stone-800 p-2 rounded-sm"}`}>
-      {message.content as string}
+      {!loading &&
+        <ReactMarkdown>
+          {message.content as string}
+        </ReactMarkdown>
+      }
+      {
+        loading && message.content as string
+      }
     </span>
   </div>
 }
 
 
 
-function Kumir({ className }: { className: string }) {
-  return <div
-    className={className}
-  >
-    <Image
-      src="/kumir.png"
-      width={500}
-      height={500}
-      alt="Kumir"
-    />
-  </div>
-}
