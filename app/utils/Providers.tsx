@@ -5,6 +5,6 @@ export default function Providers({ children }: Readonly<{ children: React.React
     storageKey='theme'
     attribute="class"
     enableSystem={false}
-    defaultTheme="system"
+    defaultTheme="dark"
   >{children}</ThemeProvider>
 }
