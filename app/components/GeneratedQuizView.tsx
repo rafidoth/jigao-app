@@ -34,13 +34,13 @@ export default function GeneratedQuizView({
   console.log("fetchedQuizes", fetchedQuizes);
   return (
     <div className={`w-full max-h-full overflow-hidden  py-2 flex flex-col`}>
-      <div className={cn("flex justify-between h-[50px] my-4 pr-4")}>
+      <div className={cn("flex justify-between h-[40px] my-4 pr-4")}>
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
           {fetchedQuizes.length} Questions Generated
         </div>
         <div
           onClick={() => generate()}
-          className="h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent"
+          className="h-full cursor-pointer flex justify-center items-center border rounded-sm px-4 hover:bg-accent"
         >
           ⚡ Generate
         </div>

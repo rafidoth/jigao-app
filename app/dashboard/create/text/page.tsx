@@ -3,6 +3,8 @@ import ResizablePanelGen from "@/app/components/ResizablePanelGen";
 import { useState } from "react";
 import { QuestionTypeType, QuizType } from "@/app/utils/types";
 import { dummyQuizzes } from "@/app/utils/dummy";
+import { saveQuizzesToDB } from "@/app/utils/db";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {};
 
@@ -12,6 +14,8 @@ function TextPromptPage({}: Props) {
   const [generating, setGenerating] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
+
+  const { isLoaded, user } = useUser();
 
   const handleGenerate = async () => {
     if (content.length === 0) {
@@ -43,12 +47,16 @@ function TextPromptPage({}: Props) {
       }
       const { object } = await response.json();
       setFetchedQuizes(object);
+      if (isLoaded && user) {
+        await saveQuizzesToDB(object, questionType, content, user.id);
+      }
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setGenerating(false);
     }
   };
+
   return (
     <ResizablePanelGen
       gen={generating}

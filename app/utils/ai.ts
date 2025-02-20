@@ -39,6 +39,8 @@ export function generateMultipleChoiceQuestion(
       choices: z.array(z.string()),
       answer: z.number(),
       answerExplanation: z.string(),
+      difficulty: z.enum(["easy", "medium", "hard"]),
+      questionType: z.enum(["mcq", "truefalse", "short", "fillintheblanks"]),
     }),
     prompt: `Generate ${n} multiple choice questions based 
     on the given context. Each question should have only 4 options

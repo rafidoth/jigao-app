@@ -38,7 +38,6 @@ export type Database = {
         Row: {
           answer: string
           answer_explanation: string | null
-          correct_choice: number
           created_at: string
           id: string
           questionID: string
@@ -46,7 +45,6 @@ export type Database = {
         Insert: {
           answer: string
           answer_explanation?: string | null
-          correct_choice: number
           created_at?: string
           id?: string
           questionID: string
@@ -54,7 +52,6 @@ export type Database = {
         Update: {
           answer?: string
           answer_explanation?: string | null
-          correct_choice?: number
           created_at?: string
           id?: string
           questionID?: string
@@ -101,26 +98,58 @@ export type Database = {
           },
         ]
       }
+      contexts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          quizsetID: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          quizsetID: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          quizsetID?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contexts_quizsetID_fkey"
+            columns: ["quizsetID"]
+            isOneToOne: false
+            referencedRelation: "quizsets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       questions: {
         Row: {
           created_at: string
           difficulty: Database["public"]["Enums"]["difficultylevel"]
           id: string
-          quizsetID: string | null
+          question: string
+          quizsetID: string
           type: Database["public"]["Enums"]["questiontype"]
         }
         Insert: {
           created_at?: string
           difficulty: Database["public"]["Enums"]["difficultylevel"]
           id?: string
-          quizsetID?: string | null
+          question: string
+          quizsetID: string
           type: Database["public"]["Enums"]["questiontype"]
         }
         Update: {
           created_at?: string
           difficulty?: Database["public"]["Enums"]["difficultylevel"]
           id?: string
-          quizsetID?: string | null
+          question?: string
+          quizsetID?: string
           type?: Database["public"]["Enums"]["questiontype"]
         }
         Relationships: [
@@ -138,21 +167,21 @@ export type Database = {
           created_at: string
           id: string
           title: string | null
-          userId: string | null
+          userId: string
           visibility: Database["public"]["Enums"]["visibility"]
         }
         Insert: {
           created_at?: string
           id?: string
           title?: string | null
-          userId?: string | null
+          userId: string
           visibility: Database["public"]["Enums"]["visibility"]
         }
         Update: {
           created_at?: string
           id?: string
           title?: string | null
-          userId?: string | null
+          userId?: string
           visibility?: Database["public"]["Enums"]["visibility"]
         }
         Relationships: [
@@ -204,7 +233,7 @@ export type Database = {
     }
     Enums: {
       difficultylevel: "easy" | "medium" | "hard"
-      questiontype: "mcq" | "tf" | "short" | "fillblank"
+      questiontype: "mcq" | "truefalse" | "short" | "fillintheblanks"
       role: "user" | "admin"
       visibility: "public" | "private" | "restricted"
     }
