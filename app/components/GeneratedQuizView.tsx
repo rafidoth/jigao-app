@@ -1,29 +1,105 @@
 import { useState } from "react";
-import { QuizType } from "@/app/utils/types";
+import { QuestionTypeType, QuizType } from "@/app/utils/types";
 import Quiz from "@/app/components/Quiz";
 import { cn } from "@/lib/utils";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
   fetchedQuizes: QuizType[];
+  quantity: number;
+  setQuantity: (quantity: number) => void;
+  questionType: QuestionTypeType;
+  setQuestionType: (questionType: QuestionTypeType) => void;
+  generate: () => void;
 }
 
 export default function GeneratedQuizView({
   generating,
   fetchedQuizes,
+  quantity,
+  setQuantity,
+  questionType,
+  setQuestionType,
+  generate,
 }: GeneratedQuizViewProps) {
   const [grid, setGrid] = useState<boolean>(true);
   console.log("fetchedQuizes", fetchedQuizes);
   return (
     <div className={`w-full max-h-full overflow-hidden  py-2 flex flex-col`}>
-      <div className={cn("flex justify-between h-[100px] px-6")}>
-        <div>{fetchedQuizes.length} Questions Generated</div>
-        <div className="cursor-pointer">
+      <div className={cn("flex justify-between h-[50px] my-4 pr-4")}>
+        <div className="border rounded-sm h-full flex items-center justify-center px-2">
+          {fetchedQuizes.length} Questions Generated
+        </div>
+        <div
+          onClick={() => generate()}
+          className="h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent"
+        >
+          ⚡ Generate
+        </div>
+        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
+          <Select onValueChange={(e) => setQuantity(parseInt(e))}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="No. of Questions" />
+            </SelectTrigger>
+            <SelectContent>
+              {Array.from({ length: 30 }, (_, i) => i + 1).map((i) => {
+                return (
+                  <SelectItem key={i} value={i.toString()}>
+                    {i} Questions
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
+          <Select
+            onValueChange={(val) => setQuestionType(val as QuestionTypeType)}
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Type" />
+            </SelectTrigger>
+            <SelectContent>
+              {[
+                "MCQ (Multiple Choice Questions) ",
+                "true/false",
+                "Fill In the Blank",
+                "Short Question",
+              ].map((type, i) => {
+                const values: QuestionTypeType[] = [
+                  "mcq",
+                  "truefalse",
+                  "fillintheblanks",
+                  "short",
+                ];
+                return (
+                  <SelectItem key={type} value={values[i]}>
+                    {type}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
           {grid ? (
-            <CiBoxList onClick={() => setGrid(false)} />
+            <CiBoxList
+              className="w-[32px] h-[32px]"
+              onClick={() => setGrid(false)}
+            />
           ) : (
-            <CiGrid41 onClick={() => setGrid(true)} />
+            <CiGrid41
+              className="w-[32px] h-[32px]"
+              onClick={() => setGrid(true)}
+            />
           )}
         </div>
       </div>

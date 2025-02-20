@@ -1,25 +1,24 @@
-"use client"
+"use client";
 import ResizablePanelGen from "@/app/components/ResizablePanelGen";
 import { useState } from "react";
-import { QuizType } from "@/app/utils/types";
+import { QuestionTypeType, QuizType } from "@/app/utils/types";
 import { dummyQuizzes } from "@/app/utils/dummy";
-type Props = {
 
-};
-
+type Props = {};
 
 function TextPromptPage({}: Props) {
   const [content, setContent] = useState<string>("");
-  const [fetchedQuizes, setFetchedQuizes] = useState<QuizType[]>(dummyQuizzes);
-  const [quizCount, setQuizCount] = useState<number>(0);
+  const [fetchedQuizes, setFetchedQuizes] = useState<QuizType[]>([]);
   const [generating, setGenerating] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(0);
+  const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
 
   const handleGenerate = async () => {
     if (content.length === 0) {
       console.log("No content");
       return;
     }
-    if (quizCount === 0) {
+    if (quantity === 0) {
       console.log("No quiz count");
       return;
     }
@@ -27,7 +26,8 @@ function TextPromptPage({}: Props) {
     const data = {
       knowledge: content,
       instructions: "",
-      quantity: quizCount,
+      quantity: quantity,
+      questionType: questionType,
     };
     setGenerating(true);
     try {
@@ -49,12 +49,19 @@ function TextPromptPage({}: Props) {
       setGenerating(false);
     }
   };
-  return <ResizablePanelGen 
-        gen={generating}  
-        fetchedQuizSet={fetchedQuizes}
-        content={content} 
-        setContent={setContent}
-    />;
+  return (
+    <ResizablePanelGen
+      gen={generating}
+      fetchedQuizSet={fetchedQuizes}
+      content={content}
+      setContent={setContent}
+      quantity={quantity}
+      setQuantity={setQuantity}
+      questionType={questionType}
+      setQuestionType={setQuestionType}
+      generate={handleGenerate}
+    />
+  );
 }
 
 export default TextPromptPage;

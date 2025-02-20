@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const sidebarItems = [
   {
     title: "Dashboard",
-    route: "/dashboard",
+    route: "/dashboard/user",
   },
   {
     title: "Create New Quiz Set",
@@ -40,6 +40,7 @@ export default function Sidebar({
   const { isLoaded, user } = useUser();
   const currentPath = usePathname();
 
+  console.log(currentPath);
   if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
@@ -86,7 +87,7 @@ export default function Sidebar({
               <span
                 className={`
                   ${
-                    currentPath === item.route
+                    currentPath.startsWith(item.route)
                       ? "font-bold bg-black dark:bg-white rounded px-2 text-white dark:text-black"
                       : "text-black dark:text-white"
                   } 

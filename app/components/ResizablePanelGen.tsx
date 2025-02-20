@@ -1,7 +1,7 @@
 import React from "react";
 import InputSection from "@/app/components/InputSection";
 import GeneratedQuizView from "@/app/components/GeneratedQuizView";
-import { QuizType } from "@/app/utils/types";
+import { QuestionTypeType, QuizType } from "@/app/utils/types";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -12,6 +12,11 @@ type Props = {
   fetchedQuizSet: QuizType[];
   content: string;
   setContent: (content: string) => void;
+  quantity: number;
+  setQuantity: (quantity: number) => void;
+  questionType: QuestionTypeType;
+  setQuestionType: (questionType: QuestionTypeType) => void;
+  generate: () => void;
 };
 
 function ResizablePanelGen({
@@ -19,11 +24,24 @@ function ResizablePanelGen({
   fetchedQuizSet,
   content,
   setContent,
+  quantity,
+  setQuantity,
+  questionType,
+  setQuestionType,
+  generate,
 }: Props) {
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel defaultSize={55} minSize={30}>
-        <GeneratedQuizView generating={gen} fetchedQuizes={fetchedQuizSet} />
+        <GeneratedQuizView
+          quantity={quantity}
+          setQuantity={setQuantity}
+          questionType={questionType}
+          setQuestionType={setQuestionType}
+          generating={gen}
+          fetchedQuizes={fetchedQuizSet}
+          generate={generate}
+        />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel>
@@ -32,8 +50,8 @@ function ResizablePanelGen({
             <InputSection content={content} setContent={setContent} />
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel minSize={30}>
-            <div className="p-10">Options</div>
+          <ResizablePanel defaultSize={30} minSize={30}>
+            <div className="p-10">AI Assistant ⚡</div>
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>

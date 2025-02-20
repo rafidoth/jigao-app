@@ -34,30 +34,164 @@ export type Database = {
   }
   public: {
     Tables: {
+      answers: {
+        Row: {
+          answer: string
+          answer_explanation: string | null
+          correct_choice: number
+          created_at: string
+          id: string
+          questionID: string
+        }
+        Insert: {
+          answer: string
+          answer_explanation?: string | null
+          correct_choice: number
+          created_at?: string
+          id?: string
+          questionID: string
+        }
+        Update: {
+          answer?: string
+          answer_explanation?: string | null
+          correct_choice?: number
+          created_at?: string
+          id?: string
+          questionID?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_questionID_fkey"
+            columns: ["questionID"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      choices: {
+        Row: {
+          choiceNumber: number | null
+          choiceText: string | null
+          created_at: string
+          id: string
+          questionID: string | null
+        }
+        Insert: {
+          choiceNumber?: number | null
+          choiceText?: string | null
+          created_at?: string
+          id?: string
+          questionID?: string | null
+        }
+        Update: {
+          choiceNumber?: number | null
+          choiceText?: string | null
+          created_at?: string
+          id?: string
+          questionID?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "choices_questionID_fkey"
+            columns: ["questionID"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          created_at: string
+          difficulty: Database["public"]["Enums"]["difficultylevel"]
+          id: string
+          quizsetID: string | null
+          type: Database["public"]["Enums"]["questiontype"]
+        }
+        Insert: {
+          created_at?: string
+          difficulty: Database["public"]["Enums"]["difficultylevel"]
+          id?: string
+          quizsetID?: string | null
+          type: Database["public"]["Enums"]["questiontype"]
+        }
+        Update: {
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["difficultylevel"]
+          id?: string
+          quizsetID?: string | null
+          type?: Database["public"]["Enums"]["questiontype"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_quizsetID_fkey"
+            columns: ["quizsetID"]
+            isOneToOne: false
+            referencedRelation: "quizsets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizsets: {
+        Row: {
+          created_at: string
+          id: string
+          title: string | null
+          userId: string | null
+          visibility: Database["public"]["Enums"]["visibility"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string | null
+          userId?: string | null
+          visibility: Database["public"]["Enums"]["visibility"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string | null
+          userId?: string | null
+          visibility?: Database["public"]["Enums"]["visibility"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizsets_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["userid"]
+          },
+        ]
+      }
       users: {
         Row: {
           createdat: string | null
           email: string
-          full_name: string
-          role: Database["public"]["Enums"]["user_role"] | null
+          firstName: string | null
+          imageUrl: string | null
+          lastName: string | null
+          role: Database["public"]["Enums"]["role"] | null
           userid: string
-          username: string
         }
         Insert: {
           createdat?: string | null
           email: string
-          full_name: string
-          role?: Database["public"]["Enums"]["user_role"] | null
+          firstName?: string | null
+          imageUrl?: string | null
+          lastName?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
           userid: string
-          username: string
         }
         Update: {
           createdat?: string | null
           email?: string
-          full_name?: string
-          role?: Database["public"]["Enums"]["user_role"] | null
+          firstName?: string | null
+          imageUrl?: string | null
+          lastName?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
           userid?: string
-          username?: string
         }
         Relationships: []
       }
@@ -69,7 +203,10 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      user_role: "user" | "admin"
+      difficultylevel: "easy" | "medium" | "hard"
+      questiontype: "mcq" | "tf" | "short" | "fillblank"
+      role: "user" | "admin"
+      visibility: "public" | "private" | "restricted"
     }
     CompositeTypes: {
       [_ in never]: never
