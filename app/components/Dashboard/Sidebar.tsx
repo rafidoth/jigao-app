@@ -21,11 +21,6 @@ const sidebarItems = [
     icon: <TbLayoutDashboardFilled />,
   },
   {
-    title: "Create New Quiz Set",
-    route: "/dashboard/quizset",
-    icon: <IoIosCreate />,
-  },
-  {
     title: "My Quizzes",
     route: "/dashboard/myquizzes",
     icon: <TbCardsFilled />,
@@ -79,8 +74,16 @@ export default function Sidebar({
     <nav className={`w-[240px] flex flex-col bg-transparent  border-r`}>
       <div
         className={`w-full flex items-center 
-        flex-row-reverse  my-4`}
+        flex-row justify-between  my-4`}
       >
+        <Link href="/dashboard/quizset/text/new">
+          <div
+            className="flex items-center justify-center  hover:bg-accent
+        rounded-md gap-x-2 px-2 font-semibold cursor-pointer"
+          >
+            Create <IoIosCreate />
+          </div>
+        </Link>
         <ViewVerticalIcon
           onClick={toggleSidebarAction}
           className={`cursor-pointer hover:bg-accent w-6 h-6`}
@@ -136,10 +139,11 @@ export default function Sidebar({
         {Quizsets.length > 0 &&
           Quizsets.map((quizset, index) => {
             return (
-              <Link href={`/dashboard/quizset/${quizset.id}`} key={index}>
+              <Link href={`/dashboard/quizset/text/${quizset.id}`} key={index}>
                 <div
                   className={`w-full 
                 ${index === 0 ? "border-y" : ""} border-b
+                ${currentPath.endsWith(quizset.id) ? "bg-accent" : ""}
               flex items-center gap-x-2 p-2 
               hover:bg-accent
               cursor-pointer`}
