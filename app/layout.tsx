@@ -4,8 +4,8 @@ import { inter } from "@/app/utils/font";
 import Providers from "@/app/utils/Providers";
 
 export const metadata: Metadata = {
-  title: "Kiii",
-  description: "A AI powered test generator",
+  title: "jigao",
+  description: "A AI Powered Quiz Generator",
 };
 
 export default function RootLayout({

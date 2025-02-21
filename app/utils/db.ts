@@ -181,3 +181,19 @@ export async function saveQuizzesToDB(
 
   console.log("Quizset saved to DB");
 }
+
+export async function fetchQuizSetsOfUserFromDB(userId: string) {
+  const db = await db_init();
+  const { data, error } = await db
+    .from("quizsets")
+    .select()
+    .eq("userId", userId);
+
+  if (error) {
+    console.error("quizset fetch error", error);
+    throw new Error(
+      "Error fetching quizset : returned error from select command"
+    );
+  }
+  return data;
+}

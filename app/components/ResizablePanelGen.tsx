@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import InputSection from "@/app/components/InputSection";
 import GeneratedQuizView from "@/app/components/GeneratedQuizView";

@@ -4,6 +4,9 @@ import Image from "next/image";
 import { ViewVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { QuizsetType } from "@/app/utils/types";
+import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
 
 const sidebarItems = [
   {
@@ -39,13 +42,16 @@ export default function Sidebar({
 }: SidebarProps) {
   const { isLoaded, user } = useUser();
   const currentPath = usePathname();
-
+  const quizsetCtx = useQuizSetCtx();
+  const recentQuizsets: QuizsetType[] = quizsetCtx.QuizsetID;
   console.log(currentPath);
+
   if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
     console.log(user);
   }
+
   return (
     <nav className={`w-[240px] bg-transparent px-2`}>
       <div

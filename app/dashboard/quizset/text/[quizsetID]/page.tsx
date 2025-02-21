@@ -1,12 +1,16 @@
 "use client";
-import ResizablePanelGen from "@/app/components/ResizablePanelGen";
+import ResizablePanelGen from "../../../../components/ResizablePanelGen";
 import { useState } from "react";
-import { QuestionTypeType, QuizType } from "@/app/utils/types";
-import { dummyQuizzes } from "@/app/utils/dummy";
-import { saveQuizzesToDB } from "@/app/utils/db";
+import { QuestionTypeType, QuizType } from "../../../../utils/types";
+import { dummyQuizzes } from "../../../../utils/dummy";
+import { saveQuizzesToDB } from "../../../../utils/db";
 import { useUser } from "@clerk/nextjs";
+import React from "react";
+import { useParams } from "next/navigation";
 
-type Props = {};
+type Props = {
+  // params: Promise<{ quizsetID: string }>;
+};
 
 function TextPromptPage({}: Props) {
   const [content, setContent] = useState<string>("");
@@ -16,6 +20,7 @@ function TextPromptPage({}: Props) {
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
 
   const { isLoaded, user } = useUser();
+  const { quizsetID } = useParams();
 
   const handleGenerate = async () => {
     if (content.length === 0) {

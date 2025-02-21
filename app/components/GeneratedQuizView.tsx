@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { QuestionTypeType, QuizType } from "@/app/utils/types";
 import Quiz from "@/app/components/Quiz";

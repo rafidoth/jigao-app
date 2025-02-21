@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { specialElite, inter, spaceMono, exo } from "./utils/font";
 import NavigationBar from "./components/NavigationBar";
-import Image from "next/image";
+import Btn from "./components/UI/Btn";
+import { GridPattern } from "@/components/ui/grid-pattern";
 
 export default function Home() {
   return (
@@ -11,55 +12,72 @@ export default function Home() {
         className="w-full flex flex-col items-center 
         justify-center gap-3 "
       >
+        <GridPatternLinearGradient />
         <div
           className={`w-[1200px] h-[600px] flex flex-col justify-center items-center rounded px-10 bg-transparent`}
         >
-          <div className={`${inter.className} text-2xl`}>
+          {/* <div className={`${inter.className} text-2xl`}>
             <h1 className={`motion-preset-fade`}>
               {`The gem cannot be polished without 
                 friction, nor man perfected without trials.`}
             </h1>
+          </div> */}
+          <div
+            className={`${inter.className} relative motion-preset-shrink font-black my-6 text-9xl rounded-md `}
+          >
+            <div className="absolute w-full h-full bg-jigao blur-3xl z-0 opacity-10  dark:opacity-50"></div>
+            <span
+              className={`relative mx-2 px-2 rounded-sm text-jigao dark:text-white z-10`}
+            >
+              GPT For Quiz
+            </span>
           </div>
           <div
-            className={`${exo.className} motion-preset-shrink font-semibold my-6 text-7xl`}
+            className={`${spaceMono.className} motion-preset-slide-down-lg  py-2 font-semibold text-2xl`}
           >
-            AI-Powered
-            <span
-              className={`mx-2 px-2 rounded-sm bg-gradient-to-r from-rose-500 to-yellow-500 bg-clip-text text-transparent `}
-            >
-              Quiz
-            </span>
-            Station
+            Test Knowledge. Share. Compete. Repeat.
           </div>
-          <div className={`my-10 gap-x-4 flex items-center`}>
-            <Image
-              src="/book.png"
-              alt="book"
-              width={70}
-              height={70}
-              className={`motion-preset-seesaw`}
-            />
-            <Image
-              src="/ai.png"
-              alt="book"
-              width={70}
-              height={70}
-              className={`motion-preset-seesaw`}
-            />
-            <Image
-              src="/quiz.png"
-              alt="book"
-              width={70}
-              height={70}
-              className={`motion-preset-seesaw`}
-            />
-          </div>
-          <div className={`${spaceMono.className} py-2 font-semibold text-2xl`}>
-            Learn Smarter, Not Harder
-          </div>
-          <Button variant="default">Get Started</Button>
+          <Btn
+            className={`motion-preset-slide-up-lg rounded-md w-[200px] h-[50px] m-4 
+              font-semibold 
+            `}
+            urlPath="/dashboard/user"
+          >
+            Start Now
+          </Btn>
         </div>
       </div>
     </main>
+  );
+}
+
+function GridPatternLinearGradient() {
+  return (
+    <GridPattern
+      width={20}
+      height={20}
+      x={-1}
+      y={-1}
+      className={
+        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
+      }
+    />
+  );
+}
+
+function GridPatternDashed() {
+  return (
+    <div className="relative flex size-full items-center justify-center overflow-hidden rounded-lg border bg-background p-20 md:shadow-xl">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray={"4 2"}
+        classname={
+          "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
+        }
+      />
+    </div>
   );
 }
