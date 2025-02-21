@@ -7,20 +7,20 @@ interface Props {
 }
 
 export type QuizsetContextType = {
-  QuizsetID: QuizsetType[];
-  setQuizsetID: (QuizsetID: QuizsetType[]) => void;
+  Quizsets: QuizsetType[];
+  setQuizsets: (QuizsetID: QuizsetType[]) => void;
 };
 
 const QuizSetContext = createContext<QuizsetContextType>({
-  QuizsetID: [],
-  setQuizsetID: () => {},
+  Quizsets: [],
+  setQuizsets: () => {},
 });
 
 export const QuizSetContextProvider = ({ children }: Props) => {
-  const [QuizsetID, setQuizsetID] = useState<QuizsetType[]>([]);
+  const [Quizsets, setQuizsets] = useState<QuizsetType[]>([]);
 
   return (
-    <QuizSetContext.Provider value={{ QuizsetID, setQuizsetID }}>
+    <QuizSetContext.Provider value={{ Quizsets, setQuizsets }}>
       {children}
     </QuizSetContext.Provider>
   );

@@ -195,5 +195,6 @@ export async function fetchQuizSetsOfUserFromDB(userId: string) {
       "Error fetching quizset : returned error from select command"
     );
   }
+  console.log("quizset fetch data", data);
   return data;
 }

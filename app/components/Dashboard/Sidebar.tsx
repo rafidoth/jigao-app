@@ -7,27 +7,38 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { QuizsetType } from "@/app/utils/types";
 import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
-
+import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { IoIosCreate } from "react-icons/io";
+import { TbCardsFilled } from "react-icons/tb";
+import { PiBookmarkSimpleFill } from "react-icons/pi";
+import { IoTime } from "react-icons/io5";
+import { fetchQuizSetsOfUserFromDB } from "@/app/utils/db";
+import { FaHistory } from "react-icons/fa";
 const sidebarItems = [
   {
     title: "Dashboard",
     route: "/dashboard/user",
+    icon: <TbLayoutDashboardFilled />,
   },
   {
     title: "Create New Quiz Set",
-    route: "/dashboard/create",
+    route: "/dashboard/quizset",
+    icon: <IoIosCreate />,
   },
   {
     title: "My Quizzes",
     route: "/dashboard/myquizzes",
+    icon: <TbCardsFilled />,
   },
   {
     title: "Bookmarks",
     route: "/dashboard/bookmarks",
+    icon: <PiBookmarkSimpleFill />,
   },
   {
     title: "Take a Quiz",
     route: "/dashboard/takeaquiz",
+    icon: <IoTime />,
   },
 ];
 
@@ -42,21 +53,33 @@ export default function Sidebar({
 }: SidebarProps) {
   const { isLoaded, user } = useUser();
   const currentPath = usePathname();
-  const quizsetCtx = useQuizSetCtx();
-  const recentQuizsets: QuizsetType[] = quizsetCtx.QuizsetID;
+  const { Quizsets, setQuizsets } = useQuizSetCtx();
   console.log(currentPath);
 
   if (!isLoaded) {
     return <div>Loading...</div>;
-  } else {
-    console.log(user);
   }
 
+  useEffect(() => {
+    if (isLoaded) {
+      if (user && user.id) {
+        const fn = async function () {
+          const fetchedQuizsets: QuizsetType[] =
+            await fetchQuizSetsOfUserFromDB(user.id);
+          setQuizsets(fetchedQuizsets);
+          console.log(fetchedQuizsets);
+        };
+        fn();
+      } else {
+        throw new Error("Error occured in fetching quizsets from DB ");
+      }
+    }
+  }, [isLoaded, user]);
   return (
-    <nav className={`w-[240px] bg-transparent px-2`}>
+    <nav className={`w-[240px] flex flex-col bg-transparent  border-r`}>
       <div
         className={`w-full flex items-center 
-        flex-row-reverse px-10 my-4`}
+        flex-row-reverse  my-4`}
       >
         <ViewVerticalIcon
           onClick={toggleSidebarAction}
@@ -85,13 +108,13 @@ export default function Sidebar({
           <Link href={item.route} key={index}>
             <div
               className={`
-              flex items-center gap-x-2 p-2 rounded-md
+              flex items-center gap-x-2 p-2 
               hover:bg-accent
               cursor-pointer
             `}
             >
               <span
-                className={`
+                className={`flex gap-2 items-center justify-center
                   ${
                     currentPath.startsWith(item.route)
                       ? "font-bold bg-black dark:bg-white rounded px-2 text-white dark:text-black"
@@ -99,11 +122,34 @@ export default function Sidebar({
                   } 
                   `}
               >
+                {item.icon}
                 {item.title}
               </span>
             </div>
           </Link>
         ))}
+      </div>
+      <div className="flex flex-col ">
+        <div className="w-full  font-semibold flex gap-2 items-center justify-start py-2">
+          <FaHistory /> Recent Quizsets
+        </div>
+        {Quizsets.length > 0 &&
+          Quizsets.map((quizset, index) => {
+            return (
+              <Link href={`/dashboard/quizset/${quizset.id}`} key={index}>
+                <div
+                  className={`w-full 
+                ${index === 0 ? "border-y" : ""} border-b
+              flex items-center gap-x-2 p-2 
+              hover:bg-accent
+              cursor-pointer`}
+                >
+                  {quizset.title?.slice(0, 20)}
+                  ....
+                </div>
+              </Link>
+            );
+          })}
       </div>
     </nav>
   );
