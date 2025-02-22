@@ -1,12 +1,16 @@
 "use client";
 import ResizablePanelGen from "../../../../components/ResizablePanelGen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionTypeType, QuizType } from "../../../../utils/types";
 import { dummyQuizzes } from "../../../../utils/dummy";
-import { saveQuizzesToDB } from "../../../../utils/db";
+import {
+  fetchQuizsetWithIDFromDB,
+  saveQuizzesToDB,
+} from "../../../../utils/db";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { useParams } from "next/navigation";
+import { useCurrentQuizsetCtx } from "@/app/contexts/CurrentQuizset.context";
 
 type Props = {
   // params: Promise<{ quizsetID: string }>;
@@ -20,7 +24,8 @@ function TextPromptPage({}: Props) {
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
 
   const { isLoaded, user } = useUser();
-  const { quizsetID } = useParams();
+  const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
+  const { quizsetID } = useParams() as { quizsetID: string };
 
   const handleGenerate = async () => {
     if (content.length === 0) {
@@ -62,6 +67,17 @@ function TextPromptPage({}: Props) {
     }
   };
 
+  useEffect(() => {
+    if (quizsetID && quizsetID !== "new") {
+      const fn = async () => {
+        const quizset = await fetchQuizsetWithIDFromDB(quizsetID);
+        if (quizset) {
+          setCurrentQuizset(quizset);
+        }
+      };
+      fn();
+    }
+  }, []);
   return (
     <ResizablePanelGen
       gen={generating}

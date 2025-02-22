@@ -48,6 +48,7 @@ export type UserType = {
   createdAt: string;
 };
 
+export type AnswerType = Database["public"]["Tables"]["answers"]["Row"];
 export type AnswerInsertType =
   Database["public"]["Tables"]["answers"]["Insert"];
 export type AnswerUpdateType =

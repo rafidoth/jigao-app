@@ -51,9 +51,9 @@ export default function Sidebar({
   const { Quizsets, setQuizsets } = useQuizSetCtx();
   console.log(currentPath);
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+  // if (!isLoaded) {
+  //   return <div>Loading...</div>;
+  // }
 
   useEffect(() => {
     if (isLoaded) {
@@ -86,7 +86,7 @@ export default function Sidebar({
         </Link>
         <ViewVerticalIcon
           onClick={toggleSidebarAction}
-          className={`cursor-pointer hover:bg-accent w-6 h-6`}
+          className={`cursor-pointer hover:text-white/50 w-6 h-6 mx-4`}
         />
       </div>
       <div className={`w-full flex gap-x-2 my-10`}>

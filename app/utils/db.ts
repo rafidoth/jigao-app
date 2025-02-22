@@ -195,6 +195,90 @@ export async function fetchQuizSetsOfUserFromDB(userId: string) {
       "Error fetching quizset : returned error from select command"
     );
   }
-  console.log("quizset fetch data", data);
   return data;
+}
+
+export async function fetchQuizsetWithIDFromDB(quizsetID: string) {
+  const db = await db_init();
+  const { data, error } = await db
+    .from("quizsets")
+    .select()
+    .eq("id", quizsetID);
+
+  if (error) {
+    console.error("quizset fetch error", error);
+    throw new Error(
+      "Error fetching quizset : returned error from select command"
+    );
+  }
+  console.log("quizset fetch data", data);
+  return data[0];
+}
+
+export async function fetchQuestionsOfQuizsetFromDB(quizsetID: string) {
+  const db = await db_init();
+  const { data, error } = await db
+    .from("questions")
+    .select()
+    .eq("quizsetID", quizsetID);
+
+  if (error) {
+    console.error("questions fetch error", error);
+    throw new Error(
+      "Error fetching questions : returned error from select command"
+    );
+  }
+  console.log("questions fetch data", data);
+  return data;
+}
+
+export async function fetchAnswerOfQuestionFromDB(questionID: string) {
+  const db = await db_init();
+  const { data, error } = await db
+    .from("answers")
+    .select()
+    .eq("questionID", questionID);
+
+  if (error) {
+    console.error("answers fetch error", error);
+    throw new Error(
+      "Error fetching answers : returned error from select command"
+    );
+  }
+  console.log("answers fetch data", data);
+  return data;
+}
+
+export async function fetchChoicesOfQuestionFromDB(questionID: string) {
+  const db = await db_init();
+  const { data, error } = await db
+    .from("choices")
+    .select()
+    .eq("questionID", questionID);
+
+  if (error) {
+    console.error("choices fetch error", error);
+    throw new Error(
+      "Error fetching choices : returned error from select command"
+    );
+  }
+  console.log("choices fetch data", data);
+  return data;
+}
+
+export async function fetchContextOfQuizsetFromDB(quizsetID: string) {
+  const db = await db_init();
+  const { data, error } = await db
+    .from("contexts")
+    .select()
+    .eq("quizsetID", quizsetID);
+
+  if (error) {
+    console.error("context fetch error", error);
+    throw new Error(
+      "Error fetching context : returned error from select command"
+    );
+  }
+  console.log("context fetch data", data);
+  return data[0];
 }
