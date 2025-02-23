@@ -32,21 +32,21 @@ export default function GeneratedQuizView({
   const [grid, setGrid] = useState<boolean>(true);
   const { currentQuizset } = useCurrentQuizsetCtx();
   return (
-    <div className={`w-full max-h-full overflow-hidden  p-2 flex flex-col`}>
+    <div className={`w-full max-h-full overflow-hidden  p-6 flex flex-col`}>
       <div className={cn("flex justify-between h-[40px] my-4 pr-4")}>
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
           {currentQuizset?.questions.length} Questions Generated
         </div>
         <div
           onClick={() => generate()}
-          className="h-full w-[200px] bg-accent cursor-pointer flex justify-center items-center border rounded-sm px-4 hover:bg-jigao/20 hover:border-jigao"
+          className="h-full w-[200px] bg-zinc-950 cursor-pointer flex justify-center items-center border rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao"
         >
           ⚡{" "}
           {currentQuizset?.questions.length === 0
             ? "Generate"
             : "Generate More"}
         </div>
-        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
+        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
           <Select onValueChange={(e) => setQuantity(parseInt(e))}>
             <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="No. of Questions" />
@@ -62,7 +62,7 @@ export default function GeneratedQuizView({
             </SelectContent>
           </Select>
         </div>
-        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
+        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
           <Select
             onValueChange={(val) => setQuestionType(val as QuestionTypeType)}
           >
@@ -91,7 +91,7 @@ export default function GeneratedQuizView({
             </SelectContent>
           </Select>
         </div>
-        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
+        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
           {grid ? (
             <CiBoxList
               className="w-[32px] h-[32px]"
@@ -116,7 +116,7 @@ export default function GeneratedQuizView({
           )}
         >
           {currentQuizset.questions.map((quiz, index) => (
-            <Quiz key={index} index={index} quiz={quiz} />
+            <Quiz grid={grid} key={index} index={index} quiz={quiz} />
           ))}
         </div>
       )}

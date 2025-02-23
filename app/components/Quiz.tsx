@@ -18,32 +18,65 @@ import { getChoices, getCorrectAnswer } from "../utils/processData";
 interface QuizProps {
   quiz: MCQ_Type;
   index: number;
+  grid?: boolean;
 }
 
-export default function Quiz({ quiz, index }: QuizProps) {
+export default function Quiz({ quiz, index, grid }: QuizProps) {
   const [selected, setSelected] = useState<string | undefined>(undefined);
   const [showAnswer, setShowAnswer] = useState<boolean>(true);
+  const letter: string[] = ["A", "B", "C", "D"];
 
   return (
-    <Card className={cn("bg-transparent w-[400px]")}>
-      <CardHeader className="font-semibold">
-        {index + 1}. {quiz.question.question}
+    <Card
+      className={cn(
+        "bg-zinc-900  rounded-xl ",
+        !grid && "w-[600px]",
+        grid && "w-[400px]"
+      )}
+    >
+      <CardHeader className="flex flex-col ">
+        <div className="flex justify-end">
+          <span className="text-2xl">{index + 1}</span>
+        </div>
+        <span
+          className={cn("p-2 rounded-t-xl", "text-xl", !grid && "text-2xl")}
+        >
+          {quiz.question.question}
+        </span>
       </CardHeader>
       <CardContent>
-        <RadioGroup value={selected} onValueChange={(val) => setSelected(val)}>
-          {getChoices(quiz.choices).map((choice, i) => (
-            <div key={i + 1} className="flex items-center space-x-2">
-              <RadioGroupItem value={choice} id={choice} />
-              <Label htmlFor={choice}>{choice}</Label>
+        {getChoices(quiz.choices).map((choice, i) => (
+          <div
+            key={i + 1}
+            className={cn("flex items-center space-x-2", !grid && "text-xl")}
+          >
+            <div
+              onClick={() => setSelected(letter[i])}
+              className={cn(
+                "flex items-center gap-x-4 hover:bg-zinc-800 ",
+                "w-full cursor-pointer px-2 py-2 rounded-xl",
+                selected === letter[i] && "bg-jigao"
+              )}
+            >
+              <span
+                className={cn(
+                  "w-7 h-7 flex items-center justify-center rounded-full",
+                  selected === letter[i] && "bg-jigao ",
+                  selected !== letter[i] && "bg-zinc-800"
+                )}
+              >
+                {letter[i]}
+              </span>
+              <span>{choice}</span>
             </div>
-          ))}
-        </RadioGroup>
+          </div>
+        ))}
       </CardContent>
       <CardFooter className="flex flex-col items-start gap-2">
         {showAnswer && (
           <span
             className={`cursor-pointer bg-rose-900/80 hover:bg-rose-900/50
-            rounded px-1
+            rounded-xl px-2
             `}
             onClick={() => setShowAnswer(false)}
           >

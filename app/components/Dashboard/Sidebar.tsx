@@ -113,7 +113,7 @@ export default function Sidebar({
               className={`
               flex items-center gap-x-2 p-2 
               rounded-l-md
-              hover:bg-accent
+              hover:bg-zinc-900
               cursor-pointer
             `}
             >
@@ -144,9 +144,9 @@ export default function Sidebar({
                 <div
                   className={`w-full 
                 ${index === 0 ? "border-y" : ""} border-b
-                ${currentPath.endsWith(quizset.id) ? "bg-accent" : ""}
+                ${currentPath.endsWith(quizset.id) ? "bg-zinc-900" : ""}
               flex items-center gap-x-2 p-2 
-              hover:bg-accent
+              hover:bg-zinc-900
               cursor-pointer`}
                 >
                   {quizset.title?.slice(0, 20)}

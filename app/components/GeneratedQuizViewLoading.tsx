@@ -7,7 +7,7 @@ export default function GenearatedQuizViewLoading() {
         {Array.from({ length: 9 }).map((_, index) => (
           <div
             key={index}
-            className="animate-pulse bg-gray-300/5 h-[300px] w-[400px] rounded-md"
+            className="animate-pulse bg-gray-300/5 h-[300px] w-[400px] rounded-xl"
           ></div>
         ))}
       </div>
