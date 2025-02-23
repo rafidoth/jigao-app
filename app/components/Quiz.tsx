@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
 import { FaTrashAlt } from "react-icons/fa";
 
-import { MCQType, QuizType } from "@/app/utils/types";
+import { MCQ_Type, MCQType, QuizType } from "@/app/utils/types";
 import {
   Card,
   CardContent,
@@ -13,9 +13,10 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { getChoices, getCorrectAnswer } from "../utils/processData";
 
 interface QuizProps {
-  quiz: MCQType;
+  quiz: MCQ_Type;
   index: number;
   removeSingleQuiz: () => void;
 }
@@ -23,14 +24,15 @@ interface QuizProps {
 export default function Quiz({ quiz, index, removeSingleQuiz }: QuizProps) {
   const [selected, setSelected] = useState<string | undefined>(undefined);
   const [showAnswer, setShowAnswer] = useState<boolean>(true);
+
   return (
     <Card className={cn("bg-transparent w-[400px]")}>
       <CardHeader className="font-semibold">
-        {index + 1}. {quiz.question}
+        {index + 1}. {quiz.question.question}
       </CardHeader>
       <CardContent>
         <RadioGroup value={selected} onValueChange={(val) => setSelected(val)}>
-          {quiz.choices.map((choice, i) => (
+          {getChoices(quiz.choices).map((choice, i) => (
             <div key={i + 1} className="flex items-center space-x-2">
               <RadioGroupItem value={choice} id={choice} />
               <Label htmlFor={choice}>{choice}</Label>
@@ -58,7 +60,7 @@ export default function Quiz({ quiz, index, removeSingleQuiz }: QuizProps) {
             `}
                 onClick={() => setShowAnswer(true)}
               >
-                {quiz.choices[quiz.answer]}
+                {getCorrectAnswer(quiz.answer.answer, quiz.choices)}
               </span>
               <span
                 className={`cursor-pointer `}
@@ -67,7 +69,7 @@ export default function Quiz({ quiz, index, removeSingleQuiz }: QuizProps) {
                 <EyeNoneIcon className={`w-4 h-4 hover:text-rose-500 `} />
               </span>
             </div>
-            {quiz.answerExplanation}
+            {quiz.answer.answer_explanation}
           </div>
         )}
         <div className="w-full flex justify-end">

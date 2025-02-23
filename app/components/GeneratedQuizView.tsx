@@ -12,10 +12,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import GenearatedQuizViewLoading from "./GeneratedQuizViewLoading";
+import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
-  fetchedQuizes: QuizType[];
   quantity: number;
   setQuantity: (quantity: number) => void;
   questionType: QuestionTypeType;
@@ -26,7 +26,6 @@ interface GeneratedQuizViewProps {
 
 export default function GeneratedQuizView({
   generating,
-  fetchedQuizes,
   quantity,
   setQuantity,
   questionType,
@@ -35,18 +34,21 @@ export default function GeneratedQuizView({
   removeSingleQuiz,
 }: GeneratedQuizViewProps) {
   const [grid, setGrid] = useState<boolean>(true);
-  console.log("fetchedQuizes", fetchedQuizes);
+  const { currentQuizset } = useCurrentQuizsetCtx();
   return (
     <div className={`w-full max-h-full overflow-hidden  p-2 flex flex-col`}>
       <div className={cn("flex justify-between h-[40px] my-4 pr-4")}>
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
-          {fetchedQuizes.length} Questions Generated
+          {currentQuizset?.questions.length} Questions Generated
         </div>
         <div
           onClick={() => generate()}
           className="h-full w-[200px] bg-accent cursor-pointer flex justify-center items-center border rounded-sm px-4 hover:bg-jigao/20 hover:border-jigao"
         >
-          ⚡ {fetchedQuizes.length === 0 ? "Generate" : "Generate More"}
+          ⚡{" "}
+          {currentQuizset?.questions.length === 0
+            ? "Generate"
+            : "Generate More"}
         </div>
         <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
           <Select onValueChange={(e) => setQuantity(parseInt(e))}>
@@ -107,7 +109,7 @@ export default function GeneratedQuizView({
           )}
         </div>
       </div>
-      {!generating && fetchedQuizes.length > 0 && (
+      {!generating && currentQuizset.questions.length > 0 && (
         <div
           className={cn(
             "h-[800px] flex overflow-auto scrollbar ",
@@ -117,11 +119,11 @@ export default function GeneratedQuizView({
             "gap-4 items-center"
           )}
         >
-          {fetchedQuizes.map((quiz, index) => (
+          {currentQuizset.questions.map((quiz, index) => (
             <Quiz
               key={index}
               index={index}
-              quiz={quiz as MCQType}
+              quiz={quiz}
               removeSingleQuiz={() => removeSingleQuiz(index)}
             />
           ))}

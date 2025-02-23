@@ -7,6 +7,16 @@ export type MCQType = {
   answerExplanation: string;
   difficulty: DifficultyType;
 };
+export type MCQ_Type = {
+  question: QuestionType;
+  answer: AnswerType;
+  choices: ChoiceType[];
+};
+export type QuizSet_Type = {
+  quizset: QuizsetType;
+  questions: MCQ_Type[];
+  context: ContextType;
+};
 
 export type TrueFalseType = {
   question: string;
@@ -75,6 +85,7 @@ export type QuizsetPageType = {
   questions: QuizType[];
   context: ContextType;
 };
+
 export type QuizsetInsertType =
   Database["public"]["Tables"]["quizsets"]["Insert"];
 export type QuizsetUpdateType =

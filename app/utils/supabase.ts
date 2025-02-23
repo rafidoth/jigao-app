@@ -229,7 +229,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      deleteSingleMCQ: {
+        Args: {
+          question_uuid: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       difficultylevel: "easy" | "medium" | "hard"

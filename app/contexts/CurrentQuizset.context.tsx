@@ -1,25 +1,41 @@
 "use client";
 import React, { createContext, useState, useContext } from "react";
-import { QuizsetPageType, QuizsetType } from "../utils/types";
+import { QuizSet_Type } from "../utils/types";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export type CurrentQuizsetContextType = {
-  currentQuizset: QuizsetPageType | null;
-  setCurrentQuizset: (quizset: QuizsetPageType | null) => void;
+  currentQuizset: QuizSet_Type;
+  setCurrentQuizset: (quizset: QuizSet_Type) => void;
+};
+
+const initialValue: QuizSet_Type = {
+  quizset: {
+    id: "",
+    title: "",
+    userId: "",
+    visibility: "public",
+    created_at: "",
+  },
+  questions: [],
+  context: {
+    content: "",
+    created_at: "",
+    id: "",
+    quizsetID: "",
+  },
 };
 
 const CurrentQuizsetContext = createContext<CurrentQuizsetContextType>({
-  currentQuizset: null,
+  currentQuizset: initialValue,
   setCurrentQuizset: () => {},
 });
 
 export const CurrentQuizsetContextProvider = ({ children }: Props) => {
-  const [currentQuizset, setCurrentQuizset] = useState<QuizsetPageType | null>(
-    null
-  );
+  const [currentQuizset, setCurrentQuizset] =
+    useState<QuizSet_Type>(initialValue);
 
   return (
     <CurrentQuizsetContext.Provider

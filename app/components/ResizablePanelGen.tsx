@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/resizable";
 type Props = {
   gen: boolean;
-  fetchedQuizSet: QuizType[];
   content: string;
   setContent: (content: string) => void;
   quantity: number;
@@ -23,7 +22,6 @@ type Props = {
 
 function ResizablePanelGen({
   gen,
-  fetchedQuizSet,
   content,
   setContent,
   quantity,
@@ -42,7 +40,6 @@ function ResizablePanelGen({
           questionType={questionType}
           setQuestionType={setQuestionType}
           generating={gen}
-          fetchedQuizes={fetchedQuizSet}
           generate={generate}
           removeSingleQuiz={removeSingleQuiz}
         />

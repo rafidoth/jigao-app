@@ -2,7 +2,9 @@
 import ResizablePanelGen from "../../../../components/ResizablePanelGen";
 import { useEffect, useState } from "react";
 import {
+  MCQ_Type,
   QuestionTypeType,
+  QuizSet_Type,
   QuizsetPageType,
   QuizsetType,
   QuizType,
@@ -17,7 +19,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useCurrentQuizsetCtx } from "@/app/contexts/CurrentQuizset.context";
 import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
-import { getQuizset } from "@/app/utils/dbHelper";
+import { get_MCQ_quizset } from "@/app/utils/dbRead";
 
 type Props = {
   // params: Promise<{ quizsetID: string }>;
@@ -25,7 +27,7 @@ type Props = {
 
 function TextPromptPage({}: Props) {
   const [context, setContext] = useState<string>("");
-  const [fetchedQuizes, setFetchedQuizes] = useState<QuizType[]>([]);
+  const [fetchedQuizes, setFetchedQuizes] = useState<MCQ_Type[]>([]);
   const [generating, setGenerating] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
@@ -88,11 +90,11 @@ function TextPromptPage({}: Props) {
     if (quizsetID && quizsetID !== "new") {
       const fn = async () => {
         setGenerating(true);
-        const quizset: QuizsetPageType = await getQuizset(quizsetID);
-        if (quizset) {
-          setCurrentQuizset(quizset);
-          setContext(quizset.context.content);
-          setFetchedQuizes(quizset.questions);
+        const current_quizset: QuizSet_Type = await get_MCQ_quizset(quizsetID);
+        if (current_quizset) {
+          setCurrentQuizset(current_quizset);
+          setContext(current_quizset.context.content);
+          setFetchedQuizes(current_quizset.questions);
         }
         return setGenerating(false);
       };
@@ -102,7 +104,6 @@ function TextPromptPage({}: Props) {
   return (
     <ResizablePanelGen
       gen={generating}
-      fetchedQuizSet={fetchedQuizes}
       content={context}
       setContent={setContext}
       quantity={quantity}
