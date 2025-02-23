@@ -21,17 +21,13 @@ interface GeneratedQuizViewProps {
   questionType: QuestionTypeType;
   setQuestionType: (questionType: QuestionTypeType) => void;
   generate: () => void;
-  removeSingleQuiz: (index: number) => void;
 }
 
 export default function GeneratedQuizView({
   generating,
-  quantity,
   setQuantity,
-  questionType,
   setQuestionType,
   generate,
-  removeSingleQuiz,
 }: GeneratedQuizViewProps) {
   const [grid, setGrid] = useState<boolean>(true);
   const { currentQuizset } = useCurrentQuizsetCtx();
@@ -120,12 +116,7 @@ export default function GeneratedQuizView({
           )}
         >
           {currentQuizset.questions.map((quiz, index) => (
-            <Quiz
-              key={index}
-              index={index}
-              quiz={quiz}
-              removeSingleQuiz={() => removeSingleQuiz(index)}
-            />
+            <Quiz key={index} index={index} quiz={quiz} />
           ))}
         </div>
       )}

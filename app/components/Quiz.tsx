@@ -18,10 +18,9 @@ import { getChoices, getCorrectAnswer } from "../utils/processData";
 interface QuizProps {
   quiz: MCQ_Type;
   index: number;
-  removeSingleQuiz: () => void;
 }
 
-export default function Quiz({ quiz, index, removeSingleQuiz }: QuizProps) {
+export default function Quiz({ quiz, index }: QuizProps) {
   const [selected, setSelected] = useState<string | undefined>(undefined);
   const [showAnswer, setShowAnswer] = useState<boolean>(true);
 
@@ -73,7 +72,7 @@ export default function Quiz({ quiz, index, removeSingleQuiz }: QuizProps) {
           </div>
         )}
         <div className="w-full flex justify-end">
-          <button onClick={() => removeSingleQuiz()}>
+          <button>
             <FaTrashAlt className="cursor-pointer hover:text-red-500 transition-colors" />
           </button>
         </div>

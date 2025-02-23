@@ -17,7 +17,6 @@ type Props = {
   questionType: QuestionTypeType;
   setQuestionType: (questionType: QuestionTypeType) => void;
   generate: () => void;
-  removeSingleQuiz: (index: number) => void;
 };
 
 function ResizablePanelGen({
@@ -29,7 +28,6 @@ function ResizablePanelGen({
   questionType,
   setQuestionType,
   generate,
-  removeSingleQuiz,
 }: Props) {
   return (
     <ResizablePanelGroup direction="horizontal">
@@ -41,7 +39,6 @@ function ResizablePanelGen({
           setQuestionType={setQuestionType}
           generating={gen}
           generate={generate}
-          removeSingleQuiz={removeSingleQuiz}
         />
       </ResizablePanel>
       <ResizableHandle />

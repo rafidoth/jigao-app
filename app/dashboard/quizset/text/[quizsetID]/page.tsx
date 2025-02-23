@@ -27,13 +27,12 @@ type Props = {
 
 function TextPromptPage({}: Props) {
   const [context, setContext] = useState<string>("");
-  const [fetchedQuizes, setFetchedQuizes] = useState<MCQ_Type[]>([]);
   const [generating, setGenerating] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
 
   const { isLoaded, user } = useUser();
-  const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
+  const { setCurrentQuizset } = useCurrentQuizsetCtx();
   const { Quizsets, setQuizsets } = useQuizSetCtx();
   const { quizsetID } = useParams() as { quizsetID: string };
 
@@ -66,15 +65,18 @@ function TextPromptPage({}: Props) {
         throw new Error(`Error: ${response.status}`);
       }
       const { object } = await response.json();
-      setFetchedQuizes(object);
       if (isLoaded && user) {
+        // save to DB
         const set: QuizsetType = await saveQuizzesToDB(
           object,
           questionType,
           context,
           user.id
         );
-        setQuizsets([...Quizsets, set]);
+        const fetchedQuizsetFromDB: QuizSet_Type = await get_MCQ_quizset(
+          set.id
+        );
+        setCurrentQuizset(fetchedQuizsetFromDB);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -82,10 +84,10 @@ function TextPromptPage({}: Props) {
       setGenerating(false);
     }
   };
-  const handleRemoveSingleQuiz = (index: number) => {
-    const newQuizes = fetchedQuizes.filter((_, i) => i !== index);
-    setFetchedQuizes(newQuizes);
-  };
+  // const handleRemoveSingleQuiz = (index: number) => {
+  //   const newQuizes = fetchedQuizes.filter((_, i) => i !== index);
+  //   setFetchedQuizes(newQuizes);
+  // };
   useEffect(() => {
     if (quizsetID && quizsetID !== "new") {
       const fn = async () => {
@@ -94,7 +96,6 @@ function TextPromptPage({}: Props) {
         if (current_quizset) {
           setCurrentQuizset(current_quizset);
           setContext(current_quizset.context.content);
-          setFetchedQuizes(current_quizset.questions);
         }
         return setGenerating(false);
       };
@@ -111,7 +112,6 @@ function TextPromptPage({}: Props) {
       questionType={questionType}
       setQuestionType={setQuestionType}
       generate={handleGenerate}
-      removeSingleQuiz={handleRemoveSingleQuiz}
     />
   );
 }
