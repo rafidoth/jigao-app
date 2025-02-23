@@ -32,7 +32,7 @@ function TextPromptPage({}: Props) {
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
 
   const { isLoaded, user } = useUser();
-  const { setCurrentQuizset } = useCurrentQuizsetCtx();
+  const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
   const { Quizsets, setQuizsets } = useQuizSetCtx();
   const { quizsetID } = useParams() as { quizsetID: string };
 
@@ -76,7 +76,17 @@ function TextPromptPage({}: Props) {
         const fetchedQuizsetFromDB: QuizSet_Type = await get_MCQ_quizset(
           set.id
         );
-        setCurrentQuizset(fetchedQuizsetFromDB);
+        if (currentQuizset.questions.length === 0) {
+          setCurrentQuizset(fetchedQuizsetFromDB);
+        } else {
+          setCurrentQuizset({
+            ...currentQuizset,
+            questions: [
+              ...currentQuizset.questions,
+              ...fetchedQuizsetFromDB.questions,
+            ],
+          });
+        }
       }
     } catch (error) {
       console.error("Error:", error);
