@@ -14,7 +14,7 @@ import {
   ContextInsertType,
 } from "@/app/utils/types";
 
-async function db_init() {
+export async function db_init() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !supabaseAnonKey) {
@@ -155,7 +155,7 @@ export async function saveQuizzesToDB(
     if (qType === "mcq") {
       const qCopy = q as MCQType;
       const ans: AnswerInsertType = {
-        answer: qCopy.choices[qCopy.answer],
+        answer: qCopy.answer.toString(),
         answer_explanation: qCopy.answerExplanation,
         questionID: qID,
       };
@@ -180,6 +180,7 @@ export async function saveQuizzesToDB(
   });
 
   console.log("Quizset saved to DB");
+  return set;
 }
 
 export async function fetchQuizSetsOfUserFromDB(userId: string) {

@@ -3,8 +3,9 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
+import { FaTrashAlt } from "react-icons/fa";
 
-import { QuizType } from "@/app/utils/types";
+import { MCQType, QuizType } from "@/app/utils/types";
 import {
   Card,
   CardContent,
@@ -14,15 +15,19 @@ import {
 import { cn } from "@/lib/utils";
 
 interface QuizProps {
-  quiz: QuizType;
+  quiz: MCQType;
+  index: number;
+  removeSingleQuiz: () => void;
 }
 
-export default function Quiz({ quiz }: QuizProps) {
+export default function Quiz({ quiz, index, removeSingleQuiz }: QuizProps) {
   const [selected, setSelected] = useState<string | undefined>(undefined);
   const [showAnswer, setShowAnswer] = useState<boolean>(true);
   return (
     <Card className={cn("bg-transparent w-[400px]")}>
-      <CardHeader>{quiz.question}</CardHeader>
+      <CardHeader className="font-semibold">
+        {index + 1}. {quiz.question}
+      </CardHeader>
       <CardContent>
         <RadioGroup value={selected} onValueChange={(val) => setSelected(val)}>
           {quiz.choices.map((choice, i) => (
@@ -33,7 +38,7 @@ export default function Quiz({ quiz }: QuizProps) {
           ))}
         </RadioGroup>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-col items-start gap-2">
         {showAnswer && (
           <span
             className={`cursor-pointer bg-rose-900/80 hover:bg-rose-900/50
@@ -65,6 +70,11 @@ export default function Quiz({ quiz }: QuizProps) {
             {quiz.answerExplanation}
           </div>
         )}
+        <div className="w-full flex justify-end">
+          <button onClick={() => removeSingleQuiz()}>
+            <FaTrashAlt className="cursor-pointer hover:text-red-500 transition-colors" />
+          </button>
+        </div>
       </CardFooter>
     </Card>
   );

@@ -112,6 +112,7 @@ export default function Sidebar({
             <div
               className={`
               flex items-center gap-x-2 p-2 
+              rounded-l-md
               hover:bg-accent
               cursor-pointer
             `}

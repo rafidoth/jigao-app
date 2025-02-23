@@ -24,7 +24,7 @@ const Topbar = (props: Props) => {
           />
         )}
       </div>
-      <div>{currentQuizset && <div>{currentQuizset.title}</div>}</div>
+      <div>{currentQuizset && <div>{currentQuizset.quizset.title}</div>}</div>
       <ThemeChanger />
     </div>
   );

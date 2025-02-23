@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { QuestionTypeType, QuizType } from "@/app/utils/types";
+import { MCQType, QuestionTypeType, QuizType } from "@/app/utils/types";
 import Quiz from "@/app/components/Quiz";
 import { cn } from "@/lib/utils";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import GenearatedQuizViewLoading from "./GeneratedQuizViewLoading";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
@@ -20,6 +21,7 @@ interface GeneratedQuizViewProps {
   questionType: QuestionTypeType;
   setQuestionType: (questionType: QuestionTypeType) => void;
   generate: () => void;
+  removeSingleQuiz: (index: number) => void;
 }
 
 export default function GeneratedQuizView({
@@ -30,20 +32,21 @@ export default function GeneratedQuizView({
   questionType,
   setQuestionType,
   generate,
+  removeSingleQuiz,
 }: GeneratedQuizViewProps) {
   const [grid, setGrid] = useState<boolean>(true);
   console.log("fetchedQuizes", fetchedQuizes);
   return (
-    <div className={`w-full max-h-full overflow-hidden  py-2 flex flex-col`}>
+    <div className={`w-full max-h-full overflow-hidden  p-2 flex flex-col`}>
       <div className={cn("flex justify-between h-[40px] my-4 pr-4")}>
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
           {fetchedQuizes.length} Questions Generated
         </div>
         <div
           onClick={() => generate()}
-          className="h-full cursor-pointer flex justify-center items-center border rounded-sm px-4 hover:bg-accent"
+          className="h-full w-[200px] bg-accent cursor-pointer flex justify-center items-center border rounded-sm px-4 hover:bg-jigao/20 hover:border-jigao"
         >
-          ⚡ Generate
+          ⚡ {fetchedQuizes.length === 0 ? "Generate" : "Generate More"}
         </div>
         <div className=" h-full cursor-pointer flex justify-center items-center border rounded-sm px-2 hover:bg-accent">
           <Select onValueChange={(e) => setQuantity(parseInt(e))}>
@@ -115,16 +118,17 @@ export default function GeneratedQuizView({
           )}
         >
           {fetchedQuizes.map((quiz, index) => (
-            <Quiz key={index} quiz={quiz} />
+            <Quiz
+              key={index}
+              index={index}
+              quiz={quiz as MCQType}
+              removeSingleQuiz={() => removeSingleQuiz(index)}
+            />
           ))}
         </div>
       )}
 
-      {generating && (
-        <div className="flex justify-center items-center">
-          <p>Generating...</p>
-        </div>
-      )}
+      {generating && <GenearatedQuizViewLoading />}
     </div>
   );
 }

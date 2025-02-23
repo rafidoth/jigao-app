@@ -1,14 +1,14 @@
 "use client";
 import React, { createContext, useState, useContext } from "react";
-import { QuizsetType } from "../utils/types";
+import { QuizsetPageType, QuizsetType } from "../utils/types";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export type CurrentQuizsetContextType = {
-  currentQuizset: QuizsetType | null;
-  setCurrentQuizset: (quizset: QuizsetType | null) => void;
+  currentQuizset: QuizsetPageType | null;
+  setCurrentQuizset: (quizset: QuizsetPageType | null) => void;
 };
 
 const CurrentQuizsetContext = createContext<CurrentQuizsetContextType>({
@@ -17,7 +17,7 @@ const CurrentQuizsetContext = createContext<CurrentQuizsetContextType>({
 });
 
 export const CurrentQuizsetContextProvider = ({ children }: Props) => {
-  const [currentQuizset, setCurrentQuizset] = useState<QuizsetType | null>(
+  const [currentQuizset, setCurrentQuizset] = useState<QuizsetPageType | null>(
     null
   );
 

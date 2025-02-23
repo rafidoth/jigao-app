@@ -1,7 +1,12 @@
 "use client";
 import ResizablePanelGen from "../../../../components/ResizablePanelGen";
 import { useEffect, useState } from "react";
-import { QuestionTypeType, QuizType } from "../../../../utils/types";
+import {
+  QuestionTypeType,
+  QuizsetPageType,
+  QuizsetType,
+  QuizType,
+} from "../../../../utils/types";
 import { dummyQuizzes } from "../../../../utils/dummy";
 import {
   fetchQuizsetWithIDFromDB,
@@ -11,13 +16,15 @@ import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { useParams } from "next/navigation";
 import { useCurrentQuizsetCtx } from "@/app/contexts/CurrentQuizset.context";
+import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
+import { getQuizset } from "@/app/utils/dbHelper";
 
 type Props = {
   // params: Promise<{ quizsetID: string }>;
 };
 
 function TextPromptPage({}: Props) {
-  const [content, setContent] = useState<string>("");
+  const [context, setContext] = useState<string>("");
   const [fetchedQuizes, setFetchedQuizes] = useState<QuizType[]>([]);
   const [generating, setGenerating] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
@@ -25,10 +32,11 @@ function TextPromptPage({}: Props) {
 
   const { isLoaded, user } = useUser();
   const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
+  const { Quizsets, setQuizsets } = useQuizSetCtx();
   const { quizsetID } = useParams() as { quizsetID: string };
 
   const handleGenerate = async () => {
-    if (content.length === 0) {
+    if (context.length === 0) {
       console.log("No content");
       return;
     }
@@ -38,7 +46,7 @@ function TextPromptPage({}: Props) {
     }
     console.log("Generating quiz");
     const data = {
-      knowledge: content,
+      knowledge: context,
       instructions: "",
       quantity: quantity,
       questionType: questionType,
@@ -58,7 +66,13 @@ function TextPromptPage({}: Props) {
       const { object } = await response.json();
       setFetchedQuizes(object);
       if (isLoaded && user) {
-        await saveQuizzesToDB(object, questionType, content, user.id);
+        const set: QuizsetType = await saveQuizzesToDB(
+          object,
+          questionType,
+          context,
+          user.id
+        );
+        setQuizsets([...Quizsets, set]);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -66,14 +80,21 @@ function TextPromptPage({}: Props) {
       setGenerating(false);
     }
   };
-
+  const handleRemoveSingleQuiz = (index: number) => {
+    const newQuizes = fetchedQuizes.filter((_, i) => i !== index);
+    setFetchedQuizes(newQuizes);
+  };
   useEffect(() => {
     if (quizsetID && quizsetID !== "new") {
       const fn = async () => {
-        const quizset = await fetchQuizsetWithIDFromDB(quizsetID);
+        setGenerating(true);
+        const quizset: QuizsetPageType = await getQuizset(quizsetID);
         if (quizset) {
           setCurrentQuizset(quizset);
+          setContext(quizset.context.content);
+          setFetchedQuizes(quizset.questions);
         }
+        return setGenerating(false);
       };
       fn();
     }
@@ -82,13 +103,14 @@ function TextPromptPage({}: Props) {
     <ResizablePanelGen
       gen={generating}
       fetchedQuizSet={fetchedQuizes}
-      content={content}
-      setContent={setContent}
+      content={context}
+      setContent={setContext}
       quantity={quantity}
       setQuantity={setQuantity}
       questionType={questionType}
       setQuestionType={setQuestionType}
       generate={handleGenerate}
+      removeSingleQuiz={handleRemoveSingleQuiz}
     />
   );
 }

@@ -66,6 +66,8 @@ export function generateTrueFalse(
       question: z.string(),
       answer: z.boolean(),
       answerExplanation: z.string(),
+      difficulty: z.enum(["easy", "medium", "hard"]),
+      questionType: z.enum(["mcq", "truefalse", "short", "fillintheblanks"]),
     }),
     prompt: `Generate ${n} true/false questions based 
     on the given context. Each question should be answerable with true or false
@@ -91,6 +93,8 @@ export function generateFillInTheBlanks(
       question: z.string(),
       answer: z.string(),
       answerExplanation: z.string(),
+      difficulty: z.enum(["easy", "medium", "hard"]),
+      questionType: z.enum(["mcq", "truefalse", "short", "fillintheblanks"]),
     }),
     prompt: `Generate ${n} fill-in-the-blanks questions based 
     on the given context. Each question should have a blank space to be filled
@@ -116,6 +120,8 @@ export function generateShortAnswer(
       question: z.string(),
       answer: z.string(),
       answerExplanation: z.string(),
+      difficulty: z.enum(["easy", "medium", "hard"]),
+      questionType: z.enum(["mcq", "truefalse", "short", "fillintheblanks"]),
     }),
     prompt: `Generate ${n} short answer questions based 
     on the given context. Each question should be answerable in a few sentences

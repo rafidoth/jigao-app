@@ -7,6 +7,7 @@ export type MCQType = {
   answerExplanation: string;
   difficulty: DifficultyType;
 };
+
 export type TrueFalseType = {
   question: string;
   answer: boolean;
@@ -20,12 +21,14 @@ export type FillInTheBlanksType = {
   answerExplanation: string;
   difficulty: DifficultyType;
 };
+
 export type ShortQuestionType = {
   question: string;
   answer: string;
   answerExplanation: string;
   difficulty: DifficultyType;
 };
+
 export type DifficultyType = "easy" | "medium" | "hard";
 export type QuestionTypeType =
   | "mcq"
@@ -67,6 +70,11 @@ export type ChoiceUpdateType =
   Database["public"]["Tables"]["choices"]["Update"];
 
 export type QuizsetType = Database["public"]["Tables"]["quizsets"]["Row"];
+export type QuizsetPageType = {
+  quizset: QuizsetType;
+  questions: QuizType[];
+  context: ContextType;
+};
 export type QuizsetInsertType =
   Database["public"]["Tables"]["quizsets"]["Insert"];
 export type QuizsetUpdateType =
