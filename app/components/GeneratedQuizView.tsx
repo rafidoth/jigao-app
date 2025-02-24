@@ -39,7 +39,7 @@ export default function GeneratedQuizView({
         </div>
         <div
           onClick={() => generate()}
-          className="h-full w-[200px] bg-zinc-950 cursor-pointer flex justify-center items-center border rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao"
+          className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center border rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao"
         >
           ⚡{" "}
           {currentQuizset?.questions.length === 0

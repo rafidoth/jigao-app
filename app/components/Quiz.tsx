@@ -29,7 +29,7 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
   return (
     <Card
       className={cn(
-        "bg-zinc-900  rounded-xl ",
+        "dark:bg-zinc-900  rounded-xl ",
         !grid && "w-[600px]",
         grid && "w-[400px]"
       )}
@@ -53,16 +53,16 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
             <div
               onClick={() => setSelected(letter[i])}
               className={cn(
-                "flex items-center gap-x-4 hover:bg-zinc-800 ",
+                "flex items-center gap-x-4 hover:bg-accent",
                 "w-full cursor-pointer px-2 py-2 rounded-xl",
-                selected === letter[i] && "bg-jigao"
+                selected === letter[i] && "bg-jigao/30"
               )}
             >
               <span
                 className={cn(
                   "w-7 h-7 flex items-center justify-center rounded-full",
-                  selected === letter[i] && "bg-jigao ",
-                  selected !== letter[i] && "bg-zinc-800"
+                  selected === letter[i] && "bg-jigao text-white ",
+                  selected !== letter[i] && "bg-accent"
                 )}
               >
                 {letter[i]}
@@ -75,7 +75,7 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
       <CardFooter className="flex flex-col items-start gap-2">
         {showAnswer && (
           <span
-            className={`cursor-pointer bg-rose-900/80 hover:bg-rose-900/50
+            className={`cursor-pointer bg-rose-900/80 hover:bg-rose-900/50 text-white
             rounded-xl px-2
             `}
             onClick={() => setShowAnswer(false)}
