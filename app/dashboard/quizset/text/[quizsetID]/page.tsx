@@ -17,7 +17,10 @@ import {
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { useParams } from "next/navigation";
-import { useCurrentQuizsetCtx } from "@/app/contexts/CurrentQuizset.context";
+import {
+  initialValue,
+  useCurrentQuizsetCtx,
+} from "@/app/contexts/CurrentQuizset.context";
 import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
 import { get_MCQ_quizset } from "@/app/utils/dbRead";
 
@@ -26,18 +29,16 @@ type Props = {
 };
 
 function TextPromptPage({}: Props) {
-  const [context, setContext] = useState<string>("");
   const [generating, setGenerating] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [questionType, setQuestionType] = useState<QuestionTypeType>("mcq");
 
   const { isLoaded, user } = useUser();
   const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
-  const { Quizsets, setQuizsets } = useQuizSetCtx();
   const { quizsetID } = useParams() as { quizsetID: string };
 
   const handleGenerate = async () => {
-    if (context.length === 0) {
+    if (currentQuizset.context.content.length === 0) {
       console.log("No content");
       return;
     }
@@ -47,7 +48,7 @@ function TextPromptPage({}: Props) {
     }
     console.log("Generating quiz");
     const data = {
-      knowledge: context,
+      knowledge: currentQuizset.context.content,
       instructions: "",
       quantity: quantity,
       questionType: questionType,
@@ -70,7 +71,7 @@ function TextPromptPage({}: Props) {
         const set: QuizsetType = await saveQuizzesToDB(
           object,
           questionType,
-          context,
+          currentQuizset.context.content,
           user.id
         );
         const fetchedQuizsetFromDB: QuizSet_Type = await get_MCQ_quizset(
@@ -99,13 +100,15 @@ function TextPromptPage({}: Props) {
   //   setFetchedQuizes(newQuizes);
   // };
   useEffect(() => {
-    if (quizsetID && quizsetID !== "new") {
+    if (!quizsetID) return;
+    if (quizsetID === "new") {
+      setCurrentQuizset(initialValue);
+    } else {
       const fn = async () => {
         setGenerating(true);
         const current_quizset: QuizSet_Type = await get_MCQ_quizset(quizsetID);
         if (current_quizset) {
           setCurrentQuizset(current_quizset);
-          setContext(current_quizset.context.content);
         }
         return setGenerating(false);
       };
@@ -115,8 +118,6 @@ function TextPromptPage({}: Props) {
   return (
     <ResizablePanelGen
       gen={generating}
-      content={context}
-      setContent={setContext}
       quantity={quantity}
       setQuantity={setQuantity}
       questionType={questionType}

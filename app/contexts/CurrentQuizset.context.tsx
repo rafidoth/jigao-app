@@ -11,7 +11,7 @@ export type CurrentQuizsetContextType = {
   setCurrentQuizset: (quizset: QuizSet_Type) => void;
 };
 
-const initialValue: QuizSet_Type = {
+export const initialValue: QuizSet_Type = {
   quizset: {
     id: "",
     title: "",

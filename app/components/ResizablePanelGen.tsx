@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import InputSection from "@/app/components/InputSection";
 import GeneratedQuizView from "@/app/components/GeneratedQuizView";
 import { QuestionTypeType, QuizType } from "@/app/utils/types";
@@ -8,10 +8,9 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
 type Props = {
   gen: boolean;
-  content: string;
-  setContent: (content: string) => void;
   quantity: number;
   setQuantity: (quantity: number) => void;
   questionType: QuestionTypeType;
@@ -21,14 +20,14 @@ type Props = {
 
 function ResizablePanelGen({
   gen,
-  content,
-  setContent,
   quantity,
   setQuantity,
   questionType,
   setQuestionType,
   generate,
 }: Props) {
+  const [content, setContent] = useState<string>("");
+  const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel defaultSize={55} minSize={30}>
@@ -45,7 +44,7 @@ function ResizablePanelGen({
       <ResizablePanel minSize={20}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel minSize={30}>
-            <InputSection content={content} setContent={setContent} />
+            <InputSection />
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={30} minSize={30}>
