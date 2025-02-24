@@ -113,7 +113,7 @@ export default function Sidebar({
               className={`
               flex items-center gap-x-2 p-2 
               rounded-l-md
-              hover:bg-zinc-900
+              hover:bg-zinc-900 hover:text-white
               cursor-pointer
             `}
             >
@@ -122,7 +122,7 @@ export default function Sidebar({
                   ${
                     currentPath.startsWith(item.route)
                       ? "font-bold bg-black dark:bg-white rounded px-2 text-white dark:text-black"
-                      : "text-black dark:text-white"
+                      : ""
                   } 
                   `}
               >
@@ -147,6 +147,7 @@ export default function Sidebar({
                 ${currentPath.endsWith(quizset.id) ? "bg-zinc-900" : ""}
               flex items-center gap-x-2 p-2 
               hover:bg-zinc-900
+              hover:text-white
               cursor-pointer`}
                 >
                   {quizset.title?.slice(0, 20)}
