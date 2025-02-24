@@ -12,3 +12,7 @@ export function getCorrectAnswer(
   const idx: number = Number(correctAnswer);
   return choices[idx].choiceText;
 }
+
+export function getCorrectAnswerIdx(correctAnswer: string) {
+  return Number(correctAnswer);
+}

@@ -13,7 +13,11 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { getChoices, getCorrectAnswer } from "../utils/processData";
+import {
+  getChoices,
+  getCorrectAnswer,
+  getCorrectAnswerIdx,
+} from "../utils/processData";
 
 interface QuizProps {
   quiz: MCQ_Type;
@@ -25,6 +29,7 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
   const [selected, setSelected] = useState<string | undefined>(undefined);
   const [showAnswer, setShowAnswer] = useState<boolean>(true);
   const letter: string[] = ["A", "B", "C", "D"];
+  const correctAnswer = letter[getCorrectAnswerIdx(quiz.answer.answer)];
 
   return (
     <Card
@@ -53,15 +58,21 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
             <div
               onClick={() => setSelected(letter[i])}
               className={cn(
-                "flex items-center gap-x-4 hover:bg-accent",
+                "flex items-center gap-x-4 ",
+                selected !== letter[i] && "hover:bg-accent",
                 "w-full cursor-pointer px-2 py-2 rounded-xl",
-                selected === letter[i] && "bg-jigao/30"
+                selected === letter[i] &&
+                  selected === correctAnswer &&
+                  "bg-green-400/50 dark:bg-green-950/50 ",
+                selected === letter[i] &&
+                  selected !== correctAnswer &&
+                  " bg-red-400/50 dark:bg-red-900/50 "
               )}
             >
               <span
                 className={cn(
                   "w-7 h-7 flex items-center justify-center rounded-full",
-                  selected === letter[i] && "bg-jigao text-white ",
+                  selected === letter[i] && "bg-accent ",
                   selected !== letter[i] && "bg-accent"
                 )}
               >
