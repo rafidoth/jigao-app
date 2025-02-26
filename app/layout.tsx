@@ -15,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${rubik.className} antialiased dark:bg-[#000]`}>
+      <body
+        className={`${rubik.className} transition-colors duration-500 ease-in-out  antialiased  `}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

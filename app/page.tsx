@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { specialElite, inter, spaceMono, exo } from "./utils/font";
+import { specialElite, inter, spaceMono, exo, rubik } from "./utils/font";
 import NavigationBar from "./components/NavigationBar";
 import Btn from "./components/UI/Btn";
 import { GridPattern } from "@/components/ui/grid-pattern";
@@ -23,7 +23,7 @@ export default function Home() {
             </h1>
           </div> */}
           <div
-            className={`${inter.className} relative motion-preset-shrink font-black my-6 text-9xl rounded-md `}
+            className={`${rubik.className} relative motion-preset-shrink font-black my-6 text-9xl rounded-md `}
           >
             <div className="absolute w-full h-full bg-jigao blur-3xl z-0 opacity-10  dark:opacity-50"></div>
             <span

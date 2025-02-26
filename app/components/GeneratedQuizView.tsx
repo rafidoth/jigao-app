@@ -4,6 +4,7 @@ import { MCQType, QuestionTypeType, QuizType } from "@/app/utils/types";
 import Quiz from "@/app/components/Quiz";
 import { cn } from "@/lib/utils";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
+import { SlEnergy } from "react-icons/sl";
 import {
   Select,
   SelectContent,
@@ -13,6 +14,14 @@ import {
 } from "@/components/ui/select";
 import GenearatedQuizViewLoading from "./GeneratedQuizViewLoading";
 import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
@@ -37,60 +46,80 @@ export default function GeneratedQuizView({
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
           {currentQuizset?.questions.length} Questions Generated
         </div>
-        <div
-          onClick={() => generate()}
-          className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center border rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao"
-        >
-          ⚡{" "}
-          {currentQuizset?.questions.length === 0
-            ? "Generate"
-            : "Generate More"}
-        </div>
-        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
-          <Select onValueChange={(e) => setQuantity(parseInt(e))}>
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="No. of Questions" />
-            </SelectTrigger>
-            <SelectContent>
-              {Array.from({ length: 30 }, (_, i) => i + 1).map((i) => {
-                return (
-                  <SelectItem key={i} value={i.toString()}>
-                    {i} Questions
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
-          <Select
-            onValueChange={(val) => setQuestionType(val as QuestionTypeType)}
-          >
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Type" />
-            </SelectTrigger>
-            <SelectContent>
-              {[
-                "MCQ (Multiple Choice Questions) ",
-                "true/false",
-                "Fill In the Blank",
-                "Short Question",
-              ].map((type, i) => {
-                const values: QuestionTypeType[] = [
-                  "mcq",
-                  "truefalse",
-                  "fillintheblanks",
-                  "short",
-                ];
-                return (
-                  <SelectItem key={type} value={values[i]}>
-                    {type}
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
-        </div>
+        <Dialog>
+          <DialogTrigger className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center border border-none rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao">
+            <SlEnergy />{" "}
+            {currentQuizset?.questions.length === 0
+              ? "Generate"
+              : "Generate More"}
+          </DialogTrigger>
+          <DialogContent className="bg-accent text-xl">
+            <DialogHeader>
+              <DialogTitle className="text-3xl">
+                Quiz Generation Settings
+              </DialogTitle>
+            </DialogHeader>
+            <div className=" cursor-pointer flex  flex-col justify-start  border rounded-xl px-2 hover:bg-accent">
+              <p className="font-semibold ">Number of Questions</p>
+              <Select onValueChange={(e) => setQuantity(parseInt(e))}>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="No. of Questions" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from({ length: 30 }, (_, i) => i + 1).map((i) => {
+                    return (
+                      <SelectItem key={i} value={i.toString()}>
+                        {i} Questions
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="  cursor-pointer flex flex-col justify-start  border rounded-xl px-2 hover:bg-accent">
+              <p className="font-semibold ">Question Type</p>
+              <Select
+                onValueChange={(val) =>
+                  setQuestionType(val as QuestionTypeType)
+                }
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {[
+                    "MCQ (Multiple Choice Questions) ",
+                    "true/false",
+                    "Fill In the Blank",
+                    "Short Question",
+                  ].map((type, i) => {
+                    const values: QuestionTypeType[] = [
+                      "mcq",
+                      "truefalse",
+                      "fillintheblanks",
+                      "short",
+                    ];
+                    return (
+                      <SelectItem key={type} value={values[i]}>
+                        {type}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div
+              onClick={() => generate()}
+              className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center rounded-xl px-4 hover:bg-jigao/20 "
+            >
+              <SlEnergy />{" "}
+              {currentQuizset?.questions.length === 0
+                ? "Generate"
+                : "Generate More"}
+            </div>
+          </DialogContent>
+        </Dialog>
         <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
           {grid ? (
             <CiBoxList

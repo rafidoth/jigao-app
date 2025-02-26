@@ -62,7 +62,6 @@ export default function Sidebar({
           const fetchedQuizsets: QuizsetType[] =
             await fetchQuizSetsOfUserFromDB(user.id);
           setQuizsets(fetchedQuizsets);
-          console.log(fetchedQuizsets);
         };
         fn();
       } else {
@@ -71,7 +70,9 @@ export default function Sidebar({
     }
   }, [isLoaded, user]);
   return (
-    <nav className={`w-[240px] flex flex-col bg-transparent  border-r`}>
+    <nav
+      className={`w-[240px] flex flex-col bg-transparent  border-r border-dashed`}
+    >
       <div
         className={`w-full flex items-center 
         flex-row justify-between  my-4`}
@@ -121,7 +122,7 @@ export default function Sidebar({
                 className={`flex gap-2 items-center justify-center
                   ${
                     currentPath.startsWith(item.route)
-                      ? "font-bold bg-black dark:bg-white rounded px-2 text-white dark:text-black"
+                      ? "font-bold bg-jigao  rounded px-2 text-white "
                       : ""
                   } 
                   `}
@@ -142,7 +143,7 @@ export default function Sidebar({
             return (
               <Link href={`/dashboard/quizset/text/${quizset.id}`} key={index}>
                 <div
-                  className={`w-full 
+                  className={`w-full border-dashed 
                 ${index === 0 ? "border-y" : ""} border-b
                 ${currentPath.endsWith(quizset.id) ? "bg-accent " : ""}
               flex items-center gap-x-2 p-2 

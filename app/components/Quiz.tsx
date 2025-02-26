@@ -34,7 +34,7 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
   return (
     <Card
       className={cn(
-        "dark:bg-zinc-900  rounded-xl ",
+        "bg-blue-400/5 dark:bg-zinc-900  rounded-xl border-none",
         !grid && "w-[600px]",
         grid && "w-[400px]"
       )}
@@ -86,7 +86,7 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
       <CardFooter className="flex flex-col items-start gap-2">
         {showAnswer && (
           <span
-            className={`cursor-pointer bg-rose-900/80 hover:bg-rose-900/50 text-white
+            className={`cursor-pointer bg-jigao/80 hover:bg-jigao/40 text-white
             rounded-xl px-2
             `}
             onClick={() => setShowAnswer(false)}
@@ -95,8 +95,8 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
           </span>
         )}
         {!showAnswer && (
-          <div className={"flex flex-col"}>
-            <div className={`flex justify-between`}>
+          <div className={"flex flex-col w-full"}>
+            <div className={`w-full flex justify-between`}>
               <span
                 className={`cursor-pointer bg-green-900/80
             hover:bg-green-900/50 rounded px-1

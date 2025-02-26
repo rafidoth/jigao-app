@@ -2,6 +2,7 @@
 import ResizablePanelGen from "../../../../components/ResizablePanelGen";
 import { useEffect, useState } from "react";
 import {
+  MCQ_AI_ResponseType,
   MCQ_Type,
   QuestionTypeType,
   QuizSet_Type,
@@ -11,8 +12,9 @@ import {
 } from "../../../../utils/types";
 import { dummyQuizzes } from "../../../../utils/dummy";
 import {
+  fetchQuizSetsOfUserFromDB,
   fetchQuizsetWithIDFromDB,
-  saveQuizzesToDB,
+  saveMCQtoDB,
 } from "../../../../utils/db";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
@@ -35,6 +37,7 @@ function TextPromptPage({}: Props) {
 
   const { isLoaded, user } = useUser();
   const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
+  const { setQuizsets } = useQuizSetCtx();
   const { quizsetID } = useParams() as { quizsetID: string };
 
   const handleGenerate = async () => {
@@ -65,29 +68,36 @@ function TextPromptPage({}: Props) {
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-      const { object } = await response.json();
+      const { object }: { object: MCQ_AI_ResponseType[] } =
+        await response.json();
       if (isLoaded && user) {
-        // save to DB
-        const set: QuizsetType = await saveQuizzesToDB(
-          object,
-          questionType,
-          currentQuizset.context.content,
-          user.id
-        );
-        const fetchedQuizsetFromDB: QuizSet_Type = await get_MCQ_quizset(
+        let set: QuizsetType;
+        if (currentQuizset.questions.length === 0) {
+          set = await saveMCQtoDB(
+            object,
+            questionType,
+            currentQuizset.context.content,
+            user.id
+          );
+        } else {
+          set = await saveMCQtoDB(
+            object,
+            questionType,
+            currentQuizset.context.content,
+            user.id,
+            currentQuizset.quizset.id
+          );
+        }
+        const fetchCurrentQuizsetFromDB: QuizSet_Type = await get_MCQ_quizset(
           set.id
         );
-        if (currentQuizset.questions.length === 0) {
-          setCurrentQuizset(fetchedQuizsetFromDB);
-        } else {
-          setCurrentQuizset({
-            ...currentQuizset,
-            questions: [
-              ...currentQuizset.questions,
-              ...fetchedQuizsetFromDB.questions,
-            ],
-          });
-        }
+        setCurrentQuizset(fetchCurrentQuizsetFromDB);
+
+        // for maintaining the quizset history
+        const fetchedQuizsets: QuizsetType[] = await fetchQuizSetsOfUserFromDB(
+          user.id
+        );
+        setQuizsets(fetchedQuizsets);
       }
     } catch (error) {
       console.error("Error:", error);

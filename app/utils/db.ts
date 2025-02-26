@@ -12,6 +12,8 @@ import {
   MCQType,
   ChoiceInsertType,
   ContextInsertType,
+  MCQ_Type,
+  MCQ_AI_ResponseType,
 } from "@/app/utils/types";
 
 export async function db_init() {
@@ -109,33 +111,42 @@ export async function insertContext(context: ContextInsertType) {
   return data[0];
 }
 
-export async function saveQuizzesToDB(
-  quiz: QuizType[],
+export async function saveMCQtoDB(
+  quiz: MCQ_AI_ResponseType[],
   questionType: QuestionTypeType,
   context: string,
-  userId: string
+  userId: string,
+  quizsetId?: string
 ) {
-  const quizset: QuizsetInsertType = {
-    title: context.slice(0, 30),
-    userId: userId,
-    visibility: "private",
-  };
-
-  const set: QuizsetType = await insertQuizset(quizset);
-  if (!set) {
-    throw new Error(
-      "Error inserting quizset : returned data from insert command is NULL"
-    );
-  }
-  const setID: string = set.id;
-
-  if (context.length > 0) {
-    const ctx: ContextInsertType = {
-      content: context,
-      quizsetID: setID,
+  let set: QuizsetType;
+  if (!quizsetId) {
+    // creaing a new quizset
+    const quizset: QuizsetInsertType = {
+      title: context.slice(0, 30),
+      userId: userId,
+      visibility: "private",
     };
-    await insertContext(ctx);
+    set = await insertQuizset(quizset);
+    if (!set) {
+      throw new Error(
+        "Error inserting quizset : returned data from insert command is NULL"
+      );
+    }
+    const setID = set.id;
+
+    //creating a new context for the quizset
+    if (context.length > 0) {
+      const ctx: ContextInsertType = {
+        content: context,
+        quizsetID: setID,
+      };
+      await insertContext(ctx);
+    }
+  } else {
+    // using existing quizset
+    set = await fetchQuizsetWithIDFromDB(quizsetId);
   }
+  const setID = set.id;
   quiz.forEach(async (q) => {
     const question: QuestionInsertType = {
       question: q.question,

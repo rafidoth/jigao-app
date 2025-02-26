@@ -1,4 +1,12 @@
 import type { Database } from "./supabase";
+export type MCQ_AI_ResponseType = {
+  question: string;
+  choices: string[];
+  answer: number;
+  answerExplanation: string;
+  difficulty: DifficultyType;
+  questionType: QuestionTypeType;
+};
 
 export type MCQType = {
   question: string;
