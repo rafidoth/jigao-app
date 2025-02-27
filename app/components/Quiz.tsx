@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
 import { FaTrashAlt } from "react-icons/fa";
-
+import { MdEditSquare } from "react-icons/md";
+import { MdOutlineCrisisAlert } from "react-icons/md";
 import { MCQ_Type, MCQType, QuizType } from "@/app/utils/types";
 import {
   Card,
@@ -18,6 +19,13 @@ import {
   getCorrectAnswer,
   getCorrectAnswerIdx,
 } from "../utils/processData";
+import { removeQuestion } from "../utils/dbDelete";
+import { get_MCQ_quizset } from "../utils/dbRead";
+import {
+  CurrentQuizsetContextProvider,
+  useCurrentQuizsetCtx,
+} from "../contexts/CurrentQuizset.context";
+import { toast } from "sonner";
 
 interface QuizProps {
   quiz: MCQ_Type;
@@ -30,6 +38,41 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
   const [showAnswer, setShowAnswer] = useState<boolean>(true);
   const letter: string[] = ["A", "B", "C", "D"];
   const correctAnswer = letter[getCorrectAnswerIdx(quiz.answer.answer)];
+  const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
+
+  const handleDelete = async () => {
+    const nonFiltered = [...currentQuizset.questions];
+    const filtered = currentQuizset.questions.filter(
+      (q) => q.question.id !== quiz.question.id
+    );
+    setCurrentQuizset({ ...currentQuizset, questions: filtered });
+    const undo = () => {
+      setCurrentQuizset({ ...currentQuizset, questions: nonFiltered });
+      toast.dismiss();
+    };
+
+    const deleteFromDB = async () => {
+      await removeQuestion(quiz.question.id);
+      const data = await get_MCQ_quizset(quiz.question.quizsetID);
+      setCurrentQuizset(data);
+    };
+
+    toast(`Question ${index + 1} has been deleted`, {
+      icon: <MdOutlineCrisisAlert />,
+      onDismiss: deleteFromDB,
+      onAutoClose: deleteFromDB,
+      action: (
+        <button
+          onClick={undo}
+          className={`
+          ${"text-sm bg-blue-700 hover:bg-blue-600 text-white w-[60px] rounded-xl"}  
+        `}
+        >
+          Undo
+        </button>
+      ),
+    });
+  };
 
   return (
     <Card
@@ -84,16 +127,6 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
         ))}
       </CardContent>
       <CardFooter className="flex flex-col items-start gap-2">
-        {showAnswer && (
-          <span
-            className={`cursor-pointer bg-jigao/80 hover:bg-jigao/40 text-white
-            rounded-xl px-2
-            `}
-            onClick={() => setShowAnswer(false)}
-          >
-            Show Answer
-          </span>
-        )}
         {!showAnswer && (
           <div className={"flex flex-col w-full"}>
             <div className={`w-full flex justify-between`}>
@@ -115,10 +148,25 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
             {quiz.answer.answer_explanation}
           </div>
         )}
-        <div className="w-full flex justify-end">
-          <button>
-            <FaTrashAlt className="cursor-pointer hover:text-red-500 transition-colors" />
-          </button>
+        <div className="w-full flex justify-between pt-2 gap-x-4 border-t border-dashed">
+          {showAnswer && (
+            <span
+              className={`cursor-pointer bg-jigao/80 hover:bg-jigao/40 text-white
+            rounded-xl px-2
+            `}
+              onClick={() => setShowAnswer(false)}
+            >
+              Show Answer
+            </span>
+          )}
+          <div className="flex justify-end gap-x-4">
+            <button>
+              <MdEditSquare className=" cursor-pointer hover:text-blue-500 transition-colors" />
+            </button>
+            <button onClick={() => handleDelete()}>
+              <FaTrashAlt className=" cursor-pointer hover:text-red-500 transition-colors" />
+            </button>
+          </div>
         </div>
       </CardFooter>
     </Card>

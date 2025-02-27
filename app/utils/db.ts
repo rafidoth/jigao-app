@@ -5,14 +5,12 @@ import {
   AnswerInsertType,
   QuizsetInsertType,
   QuestionInsertType,
-  QuizType,
   QuestionTypeType,
   QuizsetType,
   QuestionType,
   MCQType,
   ChoiceInsertType,
   ContextInsertType,
-  MCQ_Type,
   MCQ_AI_ResponseType,
 } from "@/app/utils/types";
 
@@ -274,7 +272,6 @@ export async function fetchChoicesOfQuestionFromDB(questionID: string) {
       "Error fetching choices : returned error from select command"
     );
   }
-  console.log("choices fetch data", data);
   return data;
 }
 

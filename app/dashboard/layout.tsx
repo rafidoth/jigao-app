@@ -16,16 +16,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <QuizSetContextProvider>
       <CurrentQuizsetContextProvider>
-        <main className={`flex  px-4 h-screen overflow-hidden`}>
-          {sidebarOpen && (
-            <Sidebar
-              sidebar={sidebarOpen}
-              toggleSidebarAction={() => setSidebarOpen(!sidebarOpen)}
-            />
-          )}
-          <div className={`flex-1 flex flex-col h-screen`}>
-            <Topbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            <div className={`flex-1`}>{children}</div>
+        <main className="flex flex-col h-screen overflow-hidden">
+          <Topbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <div className={`flex  px-4 h-screen overflow-hidden`}>
+            {sidebarOpen && (
+              <Sidebar
+                sidebar={sidebarOpen}
+                toggleSidebarAction={() => setSidebarOpen(!sidebarOpen)}
+              />
+            )}
+            <div className={`flex-1 flex flex-col h-screen`}>
+              <div className={`flex-1`}>{children}</div>
+            </div>
           </div>
         </main>
       </CurrentQuizsetContextProvider>

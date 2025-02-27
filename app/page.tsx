@@ -22,14 +22,21 @@ export default function Home() {
                 friction, nor man perfected without trials.`}
             </h1>
           </div> */}
+          <div className="w-full flex justify-end px-14">
+            <span
+              className={`${inter.className}  bg-jigao/50 text-xl px-2 rounded-xl font-semibold select-none`}
+            >
+              AI-Powered 🚀
+            </span>
+          </div>
           <div
             className={`${rubik.className} relative motion-preset-shrink font-black my-6 text-9xl rounded-md `}
           >
-            <div className="absolute w-full h-full bg-jigao blur-3xl z-0 opacity-10  dark:opacity-50"></div>
+            {/* <div className="absolute w-full h-full bg-jigao blur-3xl z-0 opacity-10  dark:opacity-50"></div> */}
             <span
               className={`relative mx-2 px-2 rounded-sm text-jigao dark:text-white z-10`}
             >
-              GPT For Quiz
+              GPT⚡ For Quiz
             </span>
           </div>
           <div
@@ -59,7 +66,7 @@ function GridPatternLinearGradient() {
       x={-1}
       y={-1}
       className={
-        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
+        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] opacity-20"
       }
     />
   );

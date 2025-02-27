@@ -12,7 +12,7 @@ const Topbar = (props: Props) => {
   const { currentQuizset } = useCurrentQuizsetCtx();
   return (
     <div
-      className={`w-full h-[60px] flex justify-between items-center  mb-2 px-4`}
+      className={`w-full h-[60px] flex justify-between items-center  mb-2 px-4 border-b border-dashed`}
     >
       <div>
         {!props.sidebarOpen && (

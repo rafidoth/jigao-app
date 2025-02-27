@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { inter, mavenpro, poppins, roboto, rubik } from "@/app/utils/font";
+import { rubik } from "@/app/utils/font";
 import Providers from "@/app/utils/Providers";
 
 export const metadata: Metadata = {

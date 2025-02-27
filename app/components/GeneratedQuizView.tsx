@@ -47,7 +47,7 @@ export default function GeneratedQuizView({
           {currentQuizset?.questions.length} Questions Generated
         </div>
         <Dialog>
-          <DialogTrigger className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center border border-none rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao">
+          <DialogTrigger className="h-full w-[200px] transition-colors duration-300 ease-in-out  bg-jigao cursor-pointer flex justify-center items-center border border-none rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao">
             <SlEnergy />{" "}
             {currentQuizset?.questions.length === 0
               ? "Generate"

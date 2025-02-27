@@ -75,7 +75,7 @@ export default function Sidebar({
     >
       <div
         className={`w-full flex items-center 
-        flex-row justify-between  my-4`}
+        flex-row justify-between  my-4 `}
       >
         <Link href="/dashboard/quizset/text/new">
           <div
