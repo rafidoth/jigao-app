@@ -26,6 +26,9 @@ import {
 import { useCurrentUserCtx } from "@/app/contexts/CurrentUserContext";
 import EditableTitle from "../Editabletitle";
 import { updateQuizsetTitle } from "@/app/utils/dbUpdate";
+import Logo from "../Logo";
+import { logo_path } from "@/app/config.jigao";
+import ThemeChanger from "../ThemeChanger";
 const sidebarItems = [
   {
     title: "Dashboard",
@@ -89,6 +92,10 @@ export default function Sidebar({ toggleSidebarAction }: SidebarProps) {
       className={`w-[240px] flex flex-col justify-between bg-transparent  border-r border-dashed`}
     >
       <div>
+        <div className="w-full py-2 flex justify-between">
+          <Logo src={logo_path} width={40} height={40} />
+          <ThemeChanger />
+        </div>
         <div
           className={`w-full flex items-center 
         flex-row justify-between  my-4 `}

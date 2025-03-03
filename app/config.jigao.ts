@@ -1,1 +1,1 @@
-export const logo_path = "/jigao.png"
+export const logo_path = "/jigao.svg";
