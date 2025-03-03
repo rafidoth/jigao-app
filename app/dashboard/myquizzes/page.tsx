@@ -18,7 +18,7 @@ const convertDate = (date: string) => {
 };
 
 export default function MyQuizzes() {
-  const { Quizsets, setQuizsets } = useQuizSetCtx();
+  const { Quizsets } = useQuizSetCtx();
   const today = new Date();
   const todayDate: number = Number(
     today.toISOString().split("T")[0].split("-")[2]

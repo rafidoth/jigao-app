@@ -1,10 +1,8 @@
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
-import { MockLanguageModelV1 } from "ai/test";
 
 const model = google("gemini-2.0-flash-001");
-const test_model = new MockLanguageModelV1();
 
 export function generateQuestions(
   n: number,

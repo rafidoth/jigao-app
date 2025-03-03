@@ -2,20 +2,10 @@
 import { AnimatedBackground } from "@/components/ui/animated-background";
 import React from "react";
 import ThemeChanger from "./ThemeChanger";
-import Link from "next/link";
 import Logo from "./Logo";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { useTheme } from "next-themes";
 import { logo_path } from "@/app/config.jigao";
-
-const arr = ["Getting Started", "Guides", "Community", "Pricing", "Contact"];
 
 export default function NavigationBar() {
   const { theme } = useTheme();
@@ -78,24 +68,4 @@ export function AnimatedTabsHover() {
       </AnimatedBackground>
     </div>
   );
-}
-
-{
-  /* {arr.map((item, index) => {
-            return (
-              <NavigationMenu key={index}>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <Link href="/docs" legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        {item}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            );
-          })} */
 }

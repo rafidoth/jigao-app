@@ -51,7 +51,7 @@ export const get_Total_Question_Count = async (
   user_id: string
 ): Promise<number> => {
   const supabase = await db_init();
-  let { data, error } = await supabase.rpc("get_count_question_by_user", {
+  const { data, error } = await supabase.rpc("get_count_question_by_user", {
     user_id,
   });
   if (error) console.error(error);
@@ -63,7 +63,7 @@ export const get_quizset_creator = async (
   quizsetID: string
 ): Promise<string> => {
   const supabase = await db_init();
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("quizsets")
     .select("userId")
     .eq("id", quizsetID);

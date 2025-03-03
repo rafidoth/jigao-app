@@ -1,12 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useState } from "react";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
 import { FaTrashAlt } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { MdOutlineCrisisAlert } from "react-icons/md";
-import { MCQ_Type, MCQType, QuizType } from "@/app/utils/types";
+import { MCQ_Type } from "@/app/utils/types";
 import {
   Card,
   CardContent,
@@ -21,10 +19,7 @@ import {
 } from "../utils/processData";
 import { removeQuestion } from "../utils/dbDelete";
 import { get_MCQ_quizset } from "../utils/dbRead";
-import {
-  CurrentQuizsetContextProvider,
-  useCurrentQuizsetCtx,
-} from "../contexts/CurrentQuizset.context";
+import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
 import { toast } from "sonner";
 
 interface QuizProps {

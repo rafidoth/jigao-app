@@ -1,19 +1,13 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import Sidebar from "../components/Dashboard/Sidebar";
-import { ViewVerticalIcon } from "@radix-ui/react-icons";
-import ThemeChanger from "../components/ThemeChanger";
 import { QuizSetContextProvider } from "../contexts/Quizset.context";
-import {
-  CurrentQuizsetContextProvider,
-  useCurrentQuizsetCtx,
-} from "../contexts/CurrentQuizset.context";
+import { CurrentQuizsetContextProvider } from "../contexts/CurrentQuizset.context";
 import Topbar from "../components/Dashboard/Topbar";
 import { CurrentUserContextProvider } from "../contexts/CurrentUserContext";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
-  const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
   return (
     <QuizSetContextProvider>
       <CurrentQuizsetContextProvider>

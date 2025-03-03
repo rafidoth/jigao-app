@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { rubik } from "@/app/utils/font";
+import { inter } from "@/app/utils/font";
 import Providers from "@/app/utils/Providers";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${rubik.className} transition-colors duration-500 ease-in-out  antialiased  `}
+        className={`${inter.className} transition-colors duration-500 ease-in-out  antialiased  `}
       >
         <Providers>{children}</Providers>
       </body>

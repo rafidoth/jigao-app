@@ -16,7 +16,7 @@ export type SingleQuizInTest = {
 
 export async function getQuizzes(quizsetID: string) {
   const db = await db_init();
-  let { data, error } = await db
+  const { data, error } = await db
     .from("questions")
     .select("id,question")
     .eq("quizsetID", quizsetID);
@@ -27,7 +27,7 @@ export async function getQuizzes(quizsetID: string) {
 
   if (data) {
     const quizzes_promises = data.map(async (quiz) => {
-      let { data, error } = await db
+      const { data, error } = await db
         .from("choices")
         .select("id,choiceText")
         .eq("questionID", quiz.id);

@@ -21,7 +21,7 @@ function ParticipantView({ qid }: Props) {
       }
     };
     fun();
-  }, []);
+  }, [qid]);
 
   return (
     <>

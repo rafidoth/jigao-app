@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-function CreatorView({}: Props) {
+function CreatorView() {
   return <div>CreatorView</div>;
 }
 

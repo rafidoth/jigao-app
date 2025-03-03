@@ -1,20 +1,23 @@
-"use client"
-import { useState, useRef, useEffect } from 'react';
+"use client";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Pencil1Icon } from '@radix-ui/react-icons'
 interface EditableTitleProps {
   initialTitle: string;
   onSave?: (newTitle: string) => void;
   className?: string;
+  isEditing: boolean;
+  setIsEditing: () => void;
 }
 
-const EditableTitle = (
-  { initialTitle,
-    onSave,
-    className
-  }: EditableTitleProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+const EditableTitle = ({
+  initialTitle,
+  onSave,
+  className,
+  isEditing,
+  setIsEditing,
+}: EditableTitleProps) => {
   const [title, setTitle] = useState(initialTitle);
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -24,12 +27,8 @@ const EditableTitle = (
     }
   }, [isEditing]);
 
-  const handleClick = () => {
-    setIsEditing(true);
-  };
-
   const handleBlur = () => {
-    setIsEditing(false);
+    setIsEditing();
     if (title.trim() !== initialTitle) {
       onSave?.(title);
       alert("Title updated successfully");
@@ -43,42 +42,42 @@ const EditableTitle = (
     }
     if (e.key === "Escape") {
       setTitle(initialTitle);
-      setIsEditing(false);
+      setIsEditing();
     }
   };
-  return <div >
-    {isEditing ? (
-      <input
-        ref={inputRef}
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        className={cn(
-          "w-full bg-transparent border-none outline-none px-3 py-2",
-          "text-4xl font-semibold tracking-tight",
-          "ring ring-white/10 rounded-sm",
-          "transition-all duration-200 ease-in-out",
-          className
-        )}
-        aria-label="Edit title"
-      />
-    ) : (
-      <h1
-        onClick={handleClick}
-        className={cn(
-          "text-4xl font-semibold tracking-tight cursor-pointer",
-          "py-2 rounded-lg",
-          "transition-all duration-200 ease-in-out",
-          "hover:text-white/90",
-          "flex items-center",
-          className
-        )}
-      >
-        {title}<Pencil1Icon className="w-6 h-6 ml-2 opacity-30" />
-      </h1>
-    )}
-  </div>
-}
-export default EditableTitle; 
+  return (
+    <div>
+      {isEditing ? (
+        <input
+          ref={inputRef}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          className={cn(
+            "w-full bg-transparent border-none outline-none px-3 ",
+            "tracking-tight",
+            "ring ring-white/10 rounded-sm",
+            "transition-all duration-200 ease-in-out",
+            className
+          )}
+          aria-label="Edit title"
+        />
+      ) : (
+        <span
+          className={cn(
+            "rounded-lg",
+            "transition-all duration-200 ease-in-out",
+            "hover:text-white/90",
+            "flex items-center",
+            className
+          )}
+        >
+          {title}
+        </span>
+      )}
+    </div>
+  );
+};
+export default EditableTitle;
