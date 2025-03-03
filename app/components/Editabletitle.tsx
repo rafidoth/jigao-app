@@ -31,7 +31,6 @@ const EditableTitle = ({
     setIsEditing();
     if (title.trim() !== initialTitle) {
       onSave?.(title);
-      alert("Title updated successfully");
     }
   };
 

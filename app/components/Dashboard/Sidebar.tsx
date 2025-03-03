@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/popover";
 import { useCurrentUserCtx } from "@/app/contexts/CurrentUserContext";
 import EditableTitle from "../Editabletitle";
+import { updateQuizsetTitle } from "@/app/utils/dbUpdate";
 const sidebarItems = [
   {
     title: "Dashboard",
@@ -158,6 +159,7 @@ export default function Sidebar({ toggleSidebarAction }: SidebarProps) {
                       initialTitle={quizset.title!.slice(0, 20)}
                       isEditing={editableTitle === index ? true : false}
                       setIsEditing={() => setEditableTitle(null)}
+                      onSave={(title) => updateQuizsetTitle(quizset.id, title)}
                     />
                     <Popover>
                       <PopoverTrigger>
