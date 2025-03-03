@@ -10,11 +10,7 @@ type Props = {
 function Btn({ children, className, urlPath }: Props) {
   return (
     <Link href={urlPath ? urlPath : ""}>
-      <button
-        className={`${className} transition-colors duration-300 ease-in-out  bg-jigao text-white hover:bg-jigao/50`}
-      >
-        {children}
-      </button>
+      <button className={`${className}`}>{children}</button>
     </Link>
   );
 }

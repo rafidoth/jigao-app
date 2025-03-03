@@ -45,8 +45,8 @@ export default function Home() {
             Test Knowledge. Share. Compete. Repeat.
           </div>
           <Btn
-            className={`motion-preset-slide-up-lg rounded-md w-[200px] h-[50px] m-4 
-              font-semibold 
+            className={`motion-preset-slide-up-lg rounded-xl border border-jigao w-[200px] h-[50px] m-4   
+              font-semibold  transition-colors duration-300 ease-in-out  bg-jigao/20 text-white hover:bg-jigao/50 backdrop:blur-xl 
             `}
             urlPath="/dashboard/user"
           >

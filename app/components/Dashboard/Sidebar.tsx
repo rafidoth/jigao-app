@@ -5,7 +5,7 @@ import { ViewVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { QuizsetType } from "@/app/utils/types";
+import { QuizsetType, User_Type } from "@/app/utils/types";
 import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { IoIosCreate } from "react-icons/io";
@@ -14,6 +14,10 @@ import { PiBookmarkSimpleFill } from "react-icons/pi";
 import { IoTime } from "react-icons/io5";
 import { fetchQuizSetsOfUserFromDB } from "@/app/utils/db";
 import { FaHistory } from "react-icons/fa";
+import {
+  CurrentUserContextProvider,
+  useCurrentUserCtx,
+} from "@/app/contexts/CurrentUserContext";
 const sidebarItems = [
   {
     title: "Dashboard",
@@ -49,7 +53,11 @@ export default function Sidebar({
   const { isLoaded, user } = useUser();
   const currentPath = usePathname();
   const { Quizsets, setQuizsets } = useQuizSetCtx();
+  const { currentUser, setCurrentUser } = useCurrentUserCtx();
   console.log(currentPath);
+  if (isLoaded) {
+    console.log(currentUser);
+  }
 
   // if (!isLoaded) {
   //   return <div>Loading...</div>;
@@ -58,6 +66,12 @@ export default function Sidebar({
   useEffect(() => {
     if (isLoaded) {
       if (user && user.id) {
+        const u: User_Type = {
+          user_id: user.id,
+        };
+        console.log("u ", u);
+        setCurrentUser(u);
+        console.log("current ", currentUser);
         const fn = async function () {
           const fetchedQuizsets: QuizsetType[] =
             await fetchQuizSetsOfUserFromDB(user.id);
@@ -77,12 +91,12 @@ export default function Sidebar({
         className={`w-full flex items-center 
         flex-row justify-between  my-4 `}
       >
-        <Link href="/dashboard/quizset/text/new">
+        <Link href="/dashboard/quizset/new">
           <div
             className="flex items-center justify-center  hover:bg-accent
         rounded-md gap-x-2 px-2 font-semibold cursor-pointer"
           >
-            Create <IoIosCreate />
+            Create New Quiz <IoIosCreate />
           </div>
         </Link>
         <ViewVerticalIcon
@@ -141,7 +155,7 @@ export default function Sidebar({
         {Quizsets.length > 0 &&
           Quizsets.map((quizset, index) => {
             return (
-              <Link href={`/dashboard/quizset/text/${quizset.id}`} key={index}>
+              <Link href={`/dashboard/quizset/${quizset.id}`} key={index}>
                 <div
                   className={`w-full border-dashed 
                 ${index === 0 ? "border-y" : ""} border-b

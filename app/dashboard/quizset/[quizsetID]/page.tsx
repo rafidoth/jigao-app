@@ -1,5 +1,5 @@
 "use client";
-import ResizablePanelGen from "../../../../components/ResizablePanelGen";
+import ResizablePanelGen from "../../../components/ResizablePanelGen";
 import { useEffect, useState } from "react";
 import {
   MCQ_AI_ResponseType,
@@ -9,13 +9,13 @@ import {
   QuizsetPageType,
   QuizsetType,
   QuizType,
-} from "../../../../utils/types";
-import { dummyQuizzes } from "../../../../utils/dummy";
+} from "../../../utils/types";
+import { dummyQuizzes } from "../../../utils/dummy";
 import {
   fetchQuizSetsOfUserFromDB,
   fetchQuizsetWithIDFromDB,
   saveMCQtoDB,
-} from "../../../../utils/db";
+} from "../../../utils/db";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { useParams } from "next/navigation";
@@ -25,6 +25,7 @@ import {
 } from "@/app/contexts/CurrentQuizset.context";
 import { useQuizSetCtx } from "@/app/contexts/Quizset.context";
 import { get_MCQ_quizset } from "@/app/utils/dbRead";
+import { getQuizzes } from "@/app/utils/dbTest";
 
 type Props = {
   // params: Promise<{ quizsetID: string }>;
@@ -105,10 +106,7 @@ function TextPromptPage({}: Props) {
       setGenerating(false);
     }
   };
-  // const handleRemoveSingleQuiz = (index: number) => {
-  //   const newQuizes = fetchedQuizes.filter((_, i) => i !== index);
-  //   setFetchedQuizes(newQuizes);
-  // };
+
   useEffect(() => {
     if (!quizsetID) return;
     if (quizsetID === "new") {

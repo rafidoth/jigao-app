@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { MCQType, QuestionTypeType, QuizType } from "@/app/utils/types";
+import { QuestionTypeType } from "@/app/utils/types";
 import Quiz from "@/app/components/Quiz";
 import { cn } from "@/lib/utils";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
@@ -17,11 +17,12 @@ import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
+import Link from "next/link";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
@@ -41,11 +42,16 @@ export default function GeneratedQuizView({
   const [grid, setGrid] = useState<boolean>(true);
   const { currentQuizset } = useCurrentQuizsetCtx();
   return (
-    <div className={`w-full max-h-full overflow-hidden  p-6 flex flex-col`}>
-      <div className={cn("flex justify-between h-[40px] my-4 pr-4")}>
+    <div
+      className={`w-full max-h-full overflow-hidden  p-2 flex flex-col items-center`}
+    >
+      <div className={cn("flex justify-between w-full h-[40px] mb-2 pr-4")}>
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
           {currentQuizset?.questions.length} Questions Generated
         </div>
+        <Link href={`/t/${currentQuizset.quizset.id}`}>
+          <button className="px-1">Create Exam</button>
+        </Link>
         <Dialog>
           <DialogTrigger className="h-full w-[200px] transition-colors duration-300 ease-in-out  bg-jigao cursor-pointer flex justify-center items-center border border-none rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao">
             <SlEnergy />{" "}
@@ -108,16 +114,17 @@ export default function GeneratedQuizView({
                 </SelectContent>
               </Select>
             </div>
-
-            <div
-              onClick={() => generate()}
-              className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center rounded-xl px-4 hover:bg-jigao/20 "
-            >
-              <SlEnergy />{" "}
-              {currentQuizset?.questions.length === 0
-                ? "Generate"
-                : "Generate More"}
-            </div>
+            <DialogClose>
+              <div
+                onClick={() => generate()}
+                className="h-full w-[200px] bg-jigao/30 cursor-pointer flex justify-center items-center rounded-xl px-4 hover:bg-jigao/20 "
+              >
+                <SlEnergy />{" "}
+                {currentQuizset?.questions.length === 0
+                  ? "Generate"
+                  : "Generate More"}
+              </div>
+            </DialogClose>
           </DialogContent>
         </Dialog>
         <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
@@ -141,7 +148,7 @@ export default function GeneratedQuizView({
             grid && "flex-wrap",
             !grid && "flex-col",
             "scrollbar-thumb-zinc-800",
-            "gap-4 items-center"
+            "gap-4 items-center justify-center"
           )}
         >
           {currentQuizset.questions.map((quiz, index) => (
@@ -151,6 +158,9 @@ export default function GeneratedQuizView({
       )}
 
       {generating && <GenearatedQuizViewLoading />}
+      {/* <div className="w-[800px] h-[100px] bg-jigao/20 rounded-xl mt-4 scrollbar scrollbar-thumb-zinc-00">
+        <LargeTextInputField />
+      </div> */}
     </div>
   );
 }

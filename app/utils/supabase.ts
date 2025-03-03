@@ -235,6 +235,12 @@ export type Database = {
         }
         Returns: undefined
       }
+      get_count_question_by_user: {
+        Args: {
+          user_id: string
+        }
+        Returns: number
+      }
     }
     Enums: {
       difficultylevel: "easy" | "medium" | "hard"

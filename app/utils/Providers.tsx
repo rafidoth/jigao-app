@@ -16,7 +16,7 @@ export default function Providers({
           <Toaster
             toastOptions={{
               style: {
-                background: "var(--color-bg)",
+                background: "black",
                 color: "var(--color-text)",
                 fontSize: "20px",
               },

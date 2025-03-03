@@ -30,7 +30,7 @@ function ResizablePanelGen({
   const { currentQuizset, setCurrentQuizset } = useCurrentQuizsetCtx();
   return (
     <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel defaultSize={55} minSize={30}>
+      <ResizablePanel minSize={30}>
         <GeneratedQuizView
           quantity={quantity}
           setQuantity={setQuantity}
@@ -41,16 +41,8 @@ function ResizablePanelGen({
         />
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel minSize={20}>
-        <ResizablePanelGroup direction="vertical">
-          <ResizablePanel minSize={30}>
-            <InputSection />
-          </ResizablePanel>
-          <ResizableHandle />
-          <ResizablePanel defaultSize={30} minSize={30}>
-            <div className="p-10">AI Assistant ⚡</div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
+      <ResizablePanel defaultSize={20} minSize={20}>
+        <InputSection />
       </ResizablePanel>
     </ResizablePanelGroup>
   );
