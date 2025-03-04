@@ -32,7 +32,7 @@ function GenerateBtn({ setQuantity, setQuestionType, generate }: Props) {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className={`${btn_style}`}>
+        <div className={`${btn_style} flex gap-x-2`}>
           <SlEnergy />{" "}
           {currentQuizset?.questions.length === 0
             ? "Generate"
@@ -66,6 +66,7 @@ function GenerateBtn({ setQuantity, setQuestionType, generate }: Props) {
           <p className="font-semibold ">Question Type</p>
           <Select
             onValueChange={(val) => setQuestionType(val as QuestionTypeType)}
+            defaultValue="mcq"
           >
             <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="Type" />

@@ -6,9 +6,8 @@ import { cn } from "@/lib/utils";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import GenearatedQuizViewLoading from "./GeneratedQuizViewLoading";
 import { useCurrentQuizsetCtx } from "@/app/contexts/CurrentQuizset.context";
-import Link from "next/link";
 import GenerateBtn from "./GenerateBtn";
-import { btn_style } from "@/app/config.jigao";
+import CreateExamBtn from "./CreateExamBtn";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
@@ -29,36 +28,43 @@ export default function GeneratedQuizView({
   const { currentQuizset } = useCurrentQuizsetCtx();
   return (
     <div
-      className={`w-full max-h-full overflow-hidden  p-2 flex flex-col items-center`}
+      className={`w-full max-h-full overflow-hidden  py-2 flex flex-col items-center`}
     >
       <div
         className={cn(
-          "flex items-center justify-between w-full h-[40px] mb-2 pr-4"
+          "flex items-center justify-between w-full h-[40px] mb-2 px-6"
         )}
       >
-        <div className="border rounded-sm h-full flex items-center justify-center px-2">
-          {currentQuizset?.questions.length}
+        <div className={cn("h-full flex items-center justify-center  gap-2")}>
+          <div
+            className={cn(
+              "border rounded-full h-full flex items-center justify-center",
+              " px-2 bg-jigao/30 border-transparent font-semibold"
+            )}
+          >
+            {currentQuizset?.questions.length}
+          </div>
+          <GenerateBtn
+            setQuantity={(x: number) => setQuantity(x)}
+            setQuestionType={setQuestionType}
+            generate={generate}
+          />
+          <CreateExamBtn />
         </div>
-        <GenerateBtn
-          setQuantity={(x: number) => setQuantity(x)}
-          setQuestionType={setQuestionType}
-          generate={generate}
-        />
-        <Link href={`/t/${currentQuizset.quizset.id}`}>
-          <button className={`${btn_style}`}>Create Exam</button>
-        </Link>
-        <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
-          {grid ? (
-            <CiBoxList
-              className="w-[32px] h-[32px]"
-              onClick={() => setGrid(false)}
-            />
-          ) : (
-            <CiGrid41
-              className="w-[32px] h-[32px]"
-              onClick={() => setGrid(true)}
-            />
-          )}
+        <div className={cn("h-full flex items-center justify-center gap-2")}>
+          <div className=" h-full cursor-pointer flex justify-center items-center border rounded-xl px-2 hover:bg-accent">
+            {grid ? (
+              <CiBoxList
+                className="w-[32px] h-[32px]"
+                onClick={() => setGrid(false)}
+              />
+            ) : (
+              <CiGrid41
+                className="w-[32px] h-[32px]"
+                onClick={() => setGrid(true)}
+              />
+            )}
+          </div>
         </div>
       </div>
       {!generating && currentQuizset.questions.length > 0 && (
