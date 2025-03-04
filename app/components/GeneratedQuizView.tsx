@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Link from "next/link";
+import { btn_style } from "../config.jigao";
 
 interface GeneratedQuizViewProps {
   generating: boolean;
@@ -45,19 +46,25 @@ export default function GeneratedQuizView({
     <div
       className={`w-full max-h-full overflow-hidden  p-2 flex flex-col items-center`}
     >
-      <div className={cn("flex justify-between w-full h-[40px] mb-2 pr-4")}>
+      <div
+        className={cn(
+          "flex items-center justify-between w-full h-[40px] mb-2 pr-4"
+        )}
+      >
         <div className="border rounded-sm h-full flex items-center justify-center px-2">
           {currentQuizset?.questions.length} Questions Generated
         </div>
         <Link href={`/t/${currentQuizset.quizset.id}`}>
-          <button className="px-1">Create Exam</button>
+          <button className={`${btn_style}`}>Create Exam</button>
         </Link>
         <Dialog>
-          <DialogTrigger className="h-full w-[200px] transition-colors duration-300 ease-in-out  bg-jigao cursor-pointer flex justify-center items-center border border-none rounded-xl px-4 hover:bg-jigao/20 hover:border-jigao">
-            <SlEnergy />{" "}
-            {currentQuizset?.questions.length === 0
-              ? "Generate"
-              : "Generate More"}
+          <DialogTrigger>
+            <div className={`${btn_style}`}>
+              <SlEnergy />{" "}
+              {currentQuizset?.questions.length === 0
+                ? "Generate"
+                : "Generate More"}
+            </div>
           </DialogTrigger>
           <DialogContent className="bg-accent text-xl">
             <DialogHeader>
@@ -144,7 +151,7 @@ export default function GeneratedQuizView({
       {!generating && currentQuizset.questions.length > 0 && (
         <div
           className={cn(
-            "h-[800px] flex overflow-auto scrollbar ",
+            "h-screen flex overflow-auto scrollbar ",
             grid && "flex-wrap",
             !grid && "flex-col",
             "scrollbar-thumb-zinc-800",

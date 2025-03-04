@@ -194,6 +194,102 @@ export type Database = {
           },
         ]
       }
+      test_participants: {
+        Row: {
+          created_at: string
+          id: string
+          joined_at: string | null
+          score: number | null
+          submitted_at: string | null
+          testID: string
+          userID: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          joined_at?: string | null
+          score?: number | null
+          submitted_at?: string | null
+          testID: string
+          userID: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          joined_at?: string | null
+          score?: number | null
+          submitted_at?: string | null
+          testID?: string
+          userID?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_participants_testID_fkey"
+            columns: ["testID"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_participants_userID_fkey"
+            columns: ["userID"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["userid"]
+          },
+        ]
+      }
+      tests: {
+        Row: {
+          created_at: string
+          creatorID: string
+          duration_minutes: number
+          end_time: string
+          id: string
+          per_question_value: number | null
+          quizsetID: string
+          start_time: string
+          timer_type: Database["public"]["Enums"]["timer_type"]
+        }
+        Insert: {
+          created_at?: string
+          creatorID: string
+          duration_minutes: number
+          end_time: string
+          id?: string
+          per_question_value?: number | null
+          quizsetID: string
+          start_time: string
+          timer_type: Database["public"]["Enums"]["timer_type"]
+        }
+        Update: {
+          created_at?: string
+          creatorID?: string
+          duration_minutes?: number
+          end_time?: string
+          id?: string
+          per_question_value?: number | null
+          quizsetID?: string
+          start_time?: string
+          timer_type?: Database["public"]["Enums"]["timer_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tests_creatorID_fkey"
+            columns: ["creatorID"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["userid"]
+          },
+          {
+            foreignKeyName: "tests_quizsetID_fkey"
+            columns: ["quizsetID"]
+            isOneToOne: false
+            referencedRelation: "quizsets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           createdat: string | null
@@ -246,6 +342,7 @@ export type Database = {
       difficultylevel: "easy" | "medium" | "hard"
       questiontype: "mcq" | "truefalse" | "short" | "fillintheblanks"
       role: "user" | "admin"
+      timer_type: "global" | "individual"
       visibility: "public" | "private" | "restricted"
     }
     CompositeTypes: {

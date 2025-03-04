@@ -21,6 +21,7 @@ import { removeQuestion } from "../utils/dbDelete";
 import { get_MCQ_quizset } from "../utils/dbRead";
 import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
 import { toast } from "sonner";
+import { btn_style } from "../config.jigao";
 
 interface QuizProps {
   quiz: MCQ_Type;
@@ -146,9 +147,7 @@ export default function Quiz({ quiz, index, grid }: QuizProps) {
         <div className="w-full flex justify-between pt-2 gap-x-4 border-t border-dashed">
           {showAnswer && (
             <span
-              className={`cursor-pointer bg-jigao/80 hover:bg-jigao/40 text-white
-            rounded-xl px-2
-            `}
+              className={`${btn_style}`}
               onClick={() => setShowAnswer(false)}
             >
               Show Answer
