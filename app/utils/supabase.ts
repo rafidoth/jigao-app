@@ -246,7 +246,7 @@ export type Database = {
           duration_minutes: number
           end_time: string
           id: string
-          per_question_value: number | null
+          per_question_value: number
           quizsetID: string
           start_time: string
           timer_type: Database["public"]["Enums"]["timer_type"]
@@ -257,7 +257,7 @@ export type Database = {
           duration_minutes: number
           end_time: string
           id?: string
-          per_question_value?: number | null
+          per_question_value?: number
           quizsetID: string
           start_time: string
           timer_type: Database["public"]["Enums"]["timer_type"]
@@ -268,7 +268,7 @@ export type Database = {
           duration_minutes?: number
           end_time?: string
           id?: string
-          per_question_value?: number | null
+          per_question_value?: number
           quizsetID?: string
           start_time?: string
           timer_type?: Database["public"]["Enums"]["timer_type"]

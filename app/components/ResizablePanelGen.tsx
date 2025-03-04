@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import InputSection from "@/app/components/InputSection";
-import GeneratedQuizView from "@/app/components/GeneratedQuizView";
+import GeneratedQuizView from "@/app/components/Dashboard/QuizGenerationView/GeneratedQuizView";
 import {
   MCQ_AI_ResponseType,
   QuestionTypeType,
