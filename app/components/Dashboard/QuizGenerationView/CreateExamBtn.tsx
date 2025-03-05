@@ -24,6 +24,10 @@ import { GiFireBowl } from "react-icons/gi";
 import { cn } from "@/lib/utils";
 import TimeSelection from "../../TimeSelection";
 import DateSelection from "../../DateSelection";
+import { TestInsertType, TestRowType } from "@/app/utils/types";
+import { insertTest } from "@/app/supabase/db";
+import { redirect } from "next/navigation";
+import EditableTitle from "../../Editabletitle";
 
 const generateTimeOptions = (start = 5, end = 180, step = 15) => {
   return Array.from({ length: Math.ceil((end - start) / step) + 1 }, (_, i) => {
@@ -37,6 +41,16 @@ const generateTimeOptions = (start = 5, end = 180, step = 15) => {
   }).filter(Boolean);
 };
 
+const combineDateAndTime = (date: Date, hour: number, minute: number) => {
+  date.setHours(hour, minute);
+  return date.toISOString();
+};
+const calculateEndTime = (isoString: string, durationMinutes: number) => {
+  const date = new Date(isoString); // Parse ISO string
+  date.setMinutes(date.getMinutes() + durationMinutes);
+  return date.toISOString();
+};
+
 function CreateExamBtn() {
   const { currentQuizset } = useCurrentQuizsetCtx();
   const [hour, setHour] = React.useState<number>(7);
@@ -46,6 +60,32 @@ function CreateExamBtn() {
   const [timerType, setTimerType] = React.useState<"global" | "individual">(
     "global"
   );
+  const [examTitle, setExamTitle] = React.useState<string>(
+    currentQuizset.quizset.title
+  );
+  const [editing, setEditing] = React.useState<boolean>(false);
+
+  console.log(duration);
+  const handleCreateExam = async () => {
+    console.log("Creating exam");
+    const test: TestInsertType = {
+      title: currentQuizset.quizset.title,
+      quizsetID: currentQuizset.quizset.id,
+      creatorID: currentQuizset.quizset.userId,
+      start_time: combineDateAndTime(date, hour, minute),
+      duration_minutes: duration,
+      timer_type: timerType,
+      end_time: calculateEndTime(
+        combineDateAndTime(date, hour, minute),
+        duration
+      ),
+      per_question_value: 1,
+    };
+
+    const testFromDb: TestRowType = await insertTest(test);
+    redirect(`/t/${testFromDb.id}`);
+  };
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -54,7 +94,18 @@ function CreateExamBtn() {
         </div>
       </DialogTrigger>
       <DialogContent className=" p-8 bg-zinc-950 text-xl outline-none">
-        <DialogTitle>{currentQuizset.quizset.title}</DialogTitle>
+        <span className="font-semibold">Exam Title</span>
+        <DialogTitle>
+          <span onClick={() => setEditing(true)}>
+            <EditableTitle
+              initialTitle={currentQuizset.quizset.title}
+              isEditing={editing}
+              setIsEditing={() => setEditing(false)}
+              onSave={(title) => setExamTitle(title)}
+              className="border hover:border-jigao p-2"
+            />
+          </span>
+        </DialogTitle>
         <span className="font-semibold">Start Time</span>
         <div className="flex flex-col gap-2">
           <DateSelection date={date} setDate={setDate} />
@@ -108,7 +159,7 @@ function CreateExamBtn() {
         <div className="w-full flex justify-end">
           <DialogClose>
             <div
-              onClick={() => console.log("clicked")}
+              onClick={() => handleCreateExam()}
               className={cn(btn_style, "w-[200px] select-none")}
             >
               Create Exam

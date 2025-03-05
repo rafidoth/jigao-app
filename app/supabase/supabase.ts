@@ -166,21 +166,21 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          title: string | null
+          title: string
           userId: string
           visibility: Database["public"]["Enums"]["visibility"]
         }
         Insert: {
           created_at?: string
           id?: string
-          title?: string | null
+          title?: string
           userId: string
           visibility: Database["public"]["Enums"]["visibility"]
         }
         Update: {
           created_at?: string
           id?: string
-          title?: string | null
+          title?: string
           userId?: string
           visibility?: Database["public"]["Enums"]["visibility"]
         }
@@ -250,6 +250,7 @@ export type Database = {
           quizsetID: string
           start_time: string
           timer_type: Database["public"]["Enums"]["timer_type"]
+          title: string
         }
         Insert: {
           created_at?: string
@@ -261,6 +262,7 @@ export type Database = {
           quizsetID: string
           start_time: string
           timer_type: Database["public"]["Enums"]["timer_type"]
+          title: string
         }
         Update: {
           created_at?: string
@@ -272,6 +274,7 @@ export type Database = {
           quizsetID?: string
           start_time?: string
           timer_type?: Database["public"]["Enums"]["timer_type"]
+          title?: string
         }
         Relationships: [
           {

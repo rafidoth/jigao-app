@@ -1,5 +1,5 @@
 "use client";
-import { getQuizzes, SingleQuizInTest } from "@/app/utils/dbTest";
+import { getQuizzes, SingleQuizInTest } from "@/app/supabase/dbTest";
 import React, { useEffect, useState } from "react";
 import SingleQuizComp from "./SingleQuizComp";
 import { cn } from "@/lib/utils";

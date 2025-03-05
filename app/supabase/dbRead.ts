@@ -85,3 +85,17 @@ export const get_quizset_creator = async (
     return "";
   }
 };
+
+export const getTestFromDB = async (testID: string) => {
+  const supabase = await db_init();
+  const { data, error } = await supabase
+    .from("tests")
+    .select("*")
+    .eq("id", testID);
+  if (error) {
+    console.error(error);
+    throw new Error("Error fetching test");
+  }
+  console.log(data);
+  return data?.[0];
+};

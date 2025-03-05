@@ -12,6 +12,7 @@ import {
   ChoiceInsertType,
   ContextInsertType,
   MCQ_AI_ResponseType,
+  TestInsertType,
 } from "@/app/utils/types";
 
 export async function db_init() {
@@ -289,5 +290,18 @@ export async function fetchContextOfQuizsetFromDB(quizsetID: string) {
     );
   }
   console.log("context fetch data", data);
+  return data[0];
+}
+
+// Tests table function
+export async function insertTest(test: TestInsertType) {
+  const db = await db_init();
+  const { data, error } = await db.from("tests").insert(test).select();
+  if (error) {
+    console.error("test insertion error", error);
+    throw new Error(
+      "Error inserting test : returned error from insert command"
+    );
+  }
   return data[0];
 }

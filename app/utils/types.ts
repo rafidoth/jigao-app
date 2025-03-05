@@ -107,3 +107,7 @@ export type ContextInsertType =
   Database["public"]["Tables"]["contexts"]["Insert"];
 export type ContextUpdateType =
   Database["public"]["Tables"]["contexts"]["Update"];
+
+export type TestRowType = Database["public"]["Tables"]["tests"]["Row"];
+export type TestInsertType = Database["public"]["Tables"]["tests"]["Insert"];
+export type TestUpdateType = Database["public"]["Tables"]["tests"]["Update"];

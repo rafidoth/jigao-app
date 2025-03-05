@@ -1,6 +1,6 @@
 "use client";
 import { useCurrentUserCtx } from "@/app/contexts/CurrentUserContext";
-import { get_Total_Question_Count } from "@/app/utils/dbRead";
+import { get_Total_Question_Count } from "@/app/supabase/dbRead";
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
