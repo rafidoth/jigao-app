@@ -2,7 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { UserType } from "@/app/utils/types";
-import { createUser } from "@/app/utils/db";
+import { createUser } from "@/app/supabase/db";
 import type { UserJSON } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {

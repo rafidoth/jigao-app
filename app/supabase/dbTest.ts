@@ -1,4 +1,4 @@
-import { db_init } from "./db";
+import { db_init } from "../supabase/db";
 type TestChoiceType = {
   id: string;
   choiceText: string;

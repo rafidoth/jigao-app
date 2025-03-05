@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/app/utils/supabase";
+import type { Database } from "@/app/supabase/supabase";
 import {
   UserType,
   AnswerInsertType,

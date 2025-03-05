@@ -1,4 +1,3 @@
-import { ContextType, MCQ_Type, QuizSet_Type, QuizsetType } from "./types";
 import {
   db_init,
   fetchAnswerOfQuestionFromDB,
@@ -6,8 +5,15 @@ import {
   fetchContextOfQuizsetFromDB,
   fetchQuestionsOfQuizsetFromDB,
   fetchQuizsetWithIDFromDB,
-} from "./db";
-import { AnswerType, QuestionType } from "./types";
+} from "../supabase/db";
+import {
+  AnswerType,
+  QuestionType,
+  ContextType,
+  MCQ_Type,
+  QuizSet_Type,
+  QuizsetType,
+} from "@/app/utils/types";
 
 export async function get_MCQ_quizset(
   quizsetID: string

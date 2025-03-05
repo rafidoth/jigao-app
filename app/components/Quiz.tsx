@@ -17,8 +17,8 @@ import {
   getCorrectAnswer,
   getCorrectAnswerIdx,
 } from "../utils/processData";
-import { removeQuestion } from "../utils/dbDelete";
-import { get_MCQ_quizset } from "../utils/dbRead";
+import { removeQuestion } from "@/app/supabase/dbDelete";
+import { get_MCQ_quizset } from "@/app/supabase/dbRead";
 import { useCurrentQuizsetCtx } from "../contexts/CurrentQuizset.context";
 import { toast } from "sonner";
 import { btn_style } from "../config.jigao";

@@ -1,4 +1,4 @@
-import { db_init } from "./db";
+import { db_init } from "../supabase/db";
 
 export async function removeQuestion(question_uuid: string) {
   console.log(question_uuid);

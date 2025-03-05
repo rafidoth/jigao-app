@@ -15,7 +15,7 @@ import { IoIosCreate } from "react-icons/io";
 import { TbCardsFilled } from "react-icons/tb";
 import { PiBookmarkSimpleFill } from "react-icons/pi";
 import { IoTime } from "react-icons/io5";
-import { fetchQuizSetsOfUserFromDB } from "@/app/utils/db";
+import { fetchQuizSetsOfUserFromDB } from "@/app/supabase/db";
 import { FaHistory } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
 import {
@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/popover";
 import { useCurrentUserCtx } from "@/app/contexts/CurrentUserContext";
 import EditableTitle from "../Editabletitle";
-import { updateQuizsetTitle } from "@/app/utils/dbUpdate";
+import { updateQuizsetTitle } from "@/app/supabase/dbUpdate";
 import Logo from "../Logo";
 import { logo_path } from "@/app/config.jigao";
 import ThemeChanger from "../ThemeChanger";

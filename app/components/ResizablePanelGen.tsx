@@ -19,8 +19,8 @@ import {
 } from "../contexts/CurrentQuizset.context";
 import { useUser } from "@clerk/nextjs";
 import { useQuizSetCtx } from "../contexts/Quizset.context";
-import { fetchQuizSetsOfUserFromDB, saveMCQtoDB } from "../utils/db";
-import { get_MCQ_quizset } from "../utils/dbRead";
+import { fetchQuizSetsOfUserFromDB, saveMCQtoDB } from "../supabase/db";
+import { get_MCQ_quizset } from "@/app/supabase/dbRead";
 type Props = {
   quizsetID: string;
 };

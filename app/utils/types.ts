@@ -1,4 +1,4 @@
-import type { Database } from "./supabase";
+import type { Database } from "../supabase/supabase";
 export type User_Type = {
   user_id: string | null;
 };

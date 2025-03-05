@@ -1,4 +1,4 @@
-import { db_init } from "./db";
+import { db_init } from "../supabase/db";
 
 export async function updateQuizsetTitle(quizsetID: string, t: string) {
   const db = await db_init();
